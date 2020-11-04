@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdb.demo.mapper.StoreMapper">
+    <resultMap id="BaseResultMap" type="com.zdb.demo.entity.Store">
+        <!--
+        @mbggenerated
+        -->
+        <id column="store_id" jdbcType="INTEGER" property="storeId" />
+        <result column="store_name" jdbcType="VARCHAR" property="storeName" />
+        <result column="store_collect" jdbcType="VARCHAR" property="storeCollect" />
+        <result column="store_star" jdbcType="VARCHAR" property="storeStar" />
+        <result column="store_remark" jdbcType="VARCHAR" property="storeRemark" />
+        <result column="store_sales" jdbcType="BIGINT" property="storeSales" />
+        <result column="store_state" jdbcType="INTEGER" property="storeState" />
+        <result column="store_del" jdbcType="INTEGER" property="storeDel" />
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <!--
+        @mbggenerated
+        -->
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <!--
+        @mbggenerated
+        -->
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        <!--
+        @mbggenerated
+        -->
+        store_id, store_name, store_collect, store_star, store_remark, store_sales, store_state, 
+        store_del
+    </sql>
+    <select id="selectByExample" parameterType="com.zdb.demo.entity.StoreExample" resultMap="BaseResultMap">
+        <!--
+        @mbggenerated
+        -->
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from store
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limitStart != null and limitStart>=0">
+            limit #{limitStart} , #{limitEnd}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--
+        @mbggenerated
+        -->
+        select 
+        <include refid="Base_Column_List" />
+        from store
+        where store_id = #{storeId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--
+        @mbggenerated
+        -->
+        delete from store
+        where store_id = #{storeId,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.zdb.demo.entity.StoreExample">
+        <!--
+        @mbggenerated
+        -->
+        delete from store
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.zdb.demo.entity.Store">
+        <!--
+        @mbggenerated
+        -->
+        insert into store (store_id, store_name, store_collect, 
+            store_star, store_remark, store_sales, 
+            store_state, store_del)
+        values (#{storeId,jdbcType=INTEGER}, #{storeName,jdbcType=VARCHAR}, #{storeCollect,jdbcType=VARCHAR}, 
+            #{storeStar,jdbcType=VARCHAR}, #{storeRemark,jdbcType=VARCHAR}, #{storeSales,jdbcType=BIGINT}, 
+            #{storeState,jdbcType=INTEGER}, #{storeDel,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" parameterType="com.zdb.demo.entity.Store">
+        <!--
+        @mbggenerated
+        -->
+        insert into store
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="storeId != null">
+                store_id,
+            </if>
+            <if test="storeName != null">
+                store_name,
+            </if>
+            <if test="storeCollect != null">
+                store_collect,
+            </if>
+            <if test="storeStar != null">
+                store_star,
+            </if>
+            <if test="storeRemark != null">
+                store_remark,
+            </if>
+            <if test="storeSales != null">
+                store_sales,
+            </if>
+            <if test="storeState != null">
+                store_state,
+            </if>
+            <if test="storeDel != null">
+                store_del,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="storeId != null">
+                #{storeId,jdbcType=INTEGER},
+            </if>
+            <if test="storeName != null">
+                #{storeName,jdbcType=VARCHAR},
+            </if>
+            <if test="storeCollect != null">
+                #{storeCollect,jdbcType=VARCHAR},
+            </if>
+            <if test="storeStar != null">
+                #{storeStar,jdbcType=VARCHAR},
+            </if>
+            <if test="storeRemark != null">
+                #{storeRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="storeSales != null">
+                #{storeSales,jdbcType=BIGINT},
+            </if>
+            <if test="storeState != null">
+                #{storeState,jdbcType=INTEGER},
+            </if>
+            <if test="storeDel != null">
+                #{storeDel,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.zdb.demo.entity.StoreExample" resultType="java.lang.Integer">
+        <!--
+        @mbggenerated
+        -->
+        select count(*) from store
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        <!--
+        @mbggenerated
+        -->
+        update store
+        <set>
+            <if test="record.storeId != null">
+                store_id = #{record.storeId,jdbcType=INTEGER},
+            </if>
+            <if test="record.storeName != null">
+                store_name = #{record.storeName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.storeCollect != null">
+                store_collect = #{record.storeCollect,jdbcType=VARCHAR},
+            </if>
+            <if test="record.storeStar != null">
+                store_star = #{record.storeStar,jdbcType=VARCHAR},
+            </if>
+            <if test="record.storeRemark != null">
+                store_remark = #{record.storeRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="record.storeSales != null">
+                store_sales = #{record.storeSales,jdbcType=BIGINT},
+            </if>
+            <if test="record.storeState != null">
+                store_state = #{record.storeState,jdbcType=INTEGER},
+            </if>
+            <if test="record.storeDel != null">
+                store_del = #{record.storeDel,jdbcType=INTEGER},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        <!--
+        @mbggenerated
+        -->
+        update store
+        set store_id = #{record.storeId,jdbcType=INTEGER},
+            store_name = #{record.storeName,jdbcType=VARCHAR},
+            store_collect = #{record.storeCollect,jdbcType=VARCHAR},
+            store_star = #{record.storeStar,jdbcType=VARCHAR},
+            store_remark = #{record.storeRemark,jdbcType=VARCHAR},
+            store_sales = #{record.storeSales,jdbcType=BIGINT},
+            store_state = #{record.storeState,jdbcType=INTEGER},
+            store_del = #{record.storeDel,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zdb.demo.entity.Store">
+        <!--
+        @mbggenerated
+        -->
+        update store
+        <set>
+            <if test="storeName != null">
+                store_name = #{storeName,jdbcType=VARCHAR},
+            </if>
+            <if test="storeCollect != null">
+                store_collect = #{storeCollect,jdbcType=VARCHAR},
+            </if>
+            <if test="storeStar != null">
+                store_star = #{storeStar,jdbcType=VARCHAR},
+            </if>
+            <if test="storeRemark != null">
+                store_remark = #{storeRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="storeSales != null">
+                store_sales = #{storeSales,jdbcType=BIGINT},
+            </if>
+            <if test="storeState != null">
+                store_state = #{storeState,jdbcType=INTEGER},
+            </if>
+            <if test="storeDel != null">
+                store_del = #{storeDel,jdbcType=INTEGER},
+            </if>
+        </set>
+        where store_id = #{storeId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.zdb.demo.entity.Store">
+        <!--
+        @mbggenerated
+        -->
+        update store
+        set store_name = #{storeName,jdbcType=VARCHAR},
+            store_collect = #{storeCollect,jdbcType=VARCHAR},
+            store_star = #{storeStar,jdbcType=VARCHAR},
+            store_remark = #{storeRemark,jdbcType=VARCHAR},
+            store_sales = #{storeSales,jdbcType=BIGINT},
+            store_state = #{storeState,jdbcType=INTEGER},
+            store_del = #{storeDel,jdbcType=INTEGER}
+        where store_id = #{storeId,jdbcType=INTEGER}
+    </update>
+</mapper>

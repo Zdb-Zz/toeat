@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdb.demo.mapper.OrdersMapper">
+    <resultMap id="BaseResultMap" type="com.zdb.demo.entity.Orders">
+        <!--
+        @mbggenerated
+        -->
+        <id column="order_id" jdbcType="INTEGER" property="orderId" />
+        <result column="order_user_id" jdbcType="INTEGER" property="orderUserId" />
+        <result column="order_create_time" jdbcType="TIMESTAMP" property="orderCreateTime" />
+        <result column="order_state" jdbcType="INTEGER" property="orderState" />
+        <result column="order_store_id" jdbcType="INTEGER" property="orderStoreId" />
+        <result column="order_sum_price" jdbcType="DECIMAL" property="orderSumPrice" />
+        <result column="order_remark" jdbcType="VARCHAR" property="orderRemark" />
+        <result column="order_evaluate" jdbcType="VARCHAR" property="orderEvaluate" />
+        <result column="order_del" jdbcType="INTEGER" property="orderDel" />
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <!--
+        @mbggenerated
+        -->
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <!--
+        @mbggenerated
+        -->
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        <!--
+        @mbggenerated
+        -->
+        order_id, order_user_id, order_create_time, order_state, order_store_id, order_sum_price, 
+        order_remark, order_evaluate, order_del
+    </sql>
+    <select id="selectByExample" parameterType="com.zdb.demo.entity.OrdersExample" resultMap="BaseResultMap">
+        <!--
+        @mbggenerated
+        -->
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from orders
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limitStart != null and limitStart>=0">
+            limit #{limitStart} , #{limitEnd}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--
+        @mbggenerated
+        -->
+        select 
+        <include refid="Base_Column_List" />
+        from orders
+        where order_id = #{orderId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--
+        @mbggenerated
+        -->
+        delete from orders
+        where order_id = #{orderId,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.zdb.demo.entity.OrdersExample">
+        <!--
+        @mbggenerated
+        -->
+        delete from orders
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.zdb.demo.entity.Orders">
+        <!--
+        @mbggenerated
+        -->
+        insert into orders (order_id, order_user_id, order_create_time, 
+            order_state, order_store_id, order_sum_price, 
+            order_remark, order_evaluate, order_del
+            )
+        values (#{orderId,jdbcType=INTEGER}, #{orderUserId,jdbcType=INTEGER}, #{orderCreateTime,jdbcType=TIMESTAMP}, 
+            #{orderState,jdbcType=INTEGER}, #{orderStoreId,jdbcType=INTEGER}, #{orderSumPrice,jdbcType=DECIMAL}, 
+            #{orderRemark,jdbcType=VARCHAR}, #{orderEvaluate,jdbcType=VARCHAR}, #{orderDel,jdbcType=INTEGER}
+            )
+    </insert>
+    <insert id="insertSelective" parameterType="com.zdb.demo.entity.Orders" useGeneratedKeys="true" keyProperty="orderId">
+        <!--
+        @mbggenerated
+        -->
+        insert into orders
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="orderUserId != null">
+                order_user_id,
+            </if>
+            <if test="orderCreateTime != null">
+                order_create_time,
+            </if>
+            <if test="orderState != null">
+                order_state,
+            </if>
+            <if test="orderStoreId != null">
+                order_store_id,
+            </if>
+            <if test="orderSumPrice != null">
+                order_sum_price,
+            </if>
+            <if test="orderRemark != null">
+                order_remark,
+            </if>
+            <if test="orderEvaluate != null">
+                order_evaluate,
+            </if>
+            <if test="orderDel != null">
+                order_del,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">
+                #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="orderUserId != null">
+                #{orderUserId,jdbcType=INTEGER},
+            </if>
+            <if test="orderCreateTime != null">
+                #{orderCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="orderState != null">
+                #{orderState,jdbcType=INTEGER},
+            </if>
+            <if test="orderStoreId != null">
+                #{orderStoreId,jdbcType=INTEGER},
+            </if>
+            <if test="orderSumPrice != null">
+                #{orderSumPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="orderRemark != null">
+                #{orderRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="orderEvaluate != null">
+                #{orderEvaluate,jdbcType=VARCHAR},
+            </if>
+            <if test="orderDel != null">
+                #{orderDel,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.zdb.demo.entity.OrdersExample" resultType="java.lang.Integer">
+        <!--
+        @mbggenerated
+        -->
+        select count(*) from orders
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        <!--
+        @mbggenerated
+        -->
+        update orders
+        <set>
+            <if test="record.orderId != null">
+                order_id = #{record.orderId,jdbcType=INTEGER},
+            </if>
+            <if test="record.orderUserId != null">
+                order_user_id = #{record.orderUserId,jdbcType=INTEGER},
+            </if>
+            <if test="record.orderCreateTime != null">
+                order_create_time = #{record.orderCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.orderState != null">
+                order_state = #{record.orderState,jdbcType=INTEGER},
+            </if>
+            <if test="record.orderStoreId != null">
+                order_store_id = #{record.orderStoreId,jdbcType=INTEGER},
+            </if>
+            <if test="record.orderSumPrice != null">
+                order_sum_price = #{record.orderSumPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="record.orderRemark != null">
+                order_remark = #{record.orderRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="record.orderEvaluate != null">
+                order_evaluate = #{record.orderEvaluate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.orderDel != null">
+                order_del = #{record.orderDel,jdbcType=INTEGER},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        <!--
+        @mbggenerated
+        -->
+        update orders
+        set order_id = #{record.orderId,jdbcType=INTEGER},
+            order_user_id = #{record.orderUserId,jdbcType=INTEGER},
+            order_create_time = #{record.orderCreateTime,jdbcType=TIMESTAMP},
+            order_state = #{record.orderState,jdbcType=INTEGER},
+            order_store_id = #{record.orderStoreId,jdbcType=INTEGER},
+            order_sum_price = #{record.orderSumPrice,jdbcType=DECIMAL},
+            order_remark = #{record.orderRemark,jdbcType=VARCHAR},
+            order_evaluate = #{record.orderEvaluate,jdbcType=VARCHAR},
+            order_del = #{record.orderDel,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zdb.demo.entity.Orders">
+        <!--
+        @mbggenerated
+        -->
+        update orders
+        <set>
+            <if test="orderUserId != null">
+                order_user_id = #{orderUserId,jdbcType=INTEGER},
+            </if>
+            <if test="orderCreateTime != null">
+                order_create_time = #{orderCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="orderState != null">
+                order_state = #{orderState,jdbcType=INTEGER},
+            </if>
+            <if test="orderStoreId != null">
+                order_store_id = #{orderStoreId,jdbcType=INTEGER},
+            </if>
+            <if test="orderSumPrice != null">
+                order_sum_price = #{orderSumPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="orderRemark != null">
+                order_remark = #{orderRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="orderEvaluate != null">
+                order_evaluate = #{orderEvaluate,jdbcType=VARCHAR},
+            </if>
+            <if test="orderDel != null">
+                order_del = #{orderDel,jdbcType=INTEGER},
+            </if>
+        </set>
+        where order_id = #{orderId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.zdb.demo.entity.Orders">
+        <!--
+        @mbggenerated
+        -->
+        update orders
+        set order_user_id = #{orderUserId,jdbcType=INTEGER},
+            order_create_time = #{orderCreateTime,jdbcType=TIMESTAMP},
+            order_state = #{orderState,jdbcType=INTEGER},
+            order_store_id = #{orderStoreId,jdbcType=INTEGER},
+            order_sum_price = #{orderSumPrice,jdbcType=DECIMAL},
+            order_remark = #{orderRemark,jdbcType=VARCHAR},
+            order_evaluate = #{orderEvaluate,jdbcType=VARCHAR},
+            order_del = #{orderDel,jdbcType=INTEGER}
+        where order_id = #{orderId,jdbcType=INTEGER}
+    </update>
+</mapper>
