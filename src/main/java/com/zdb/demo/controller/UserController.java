@@ -14,6 +14,9 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
 
+/**
+ * 用户管理
+ */
 @Slf4j
 @Scope("prototype")
 @RestController
@@ -47,7 +50,7 @@ public class UserController {
      */
     @PostMapping("/login")
     public Map<String, Object> login(@RequestBody User user, HttpSession session) {
-        int type = userService.loginUser(user,session);
+        int type = userService.loginUser(user, session);
         if (type == 1) {
             return ResultUtil.resultSuccess("登录成功", null, type);
         } else if (type == 2) {
@@ -64,7 +67,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/editUser")
-    public Map<String, Object> editUser(@RequestBody User user,HttpSession session) {
+    public Map<String, Object> editUser(@RequestBody User user, HttpSession session) {
         User userSession = (User) session.getAttribute("user");
         user.setUserId(userSession.getUserId());
         Boolean isSuccess = userService.editUser(user);

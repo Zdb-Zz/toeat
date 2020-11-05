@@ -745,6 +745,66 @@ public class UserExample {
             addCriterion("user_type not between", value1, value2, "userType");
             return (Criteria) this;
         }
+
+        public Criteria andUserStoreIsNull() {
+            addCriterion("user_store is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserStoreIsNotNull() {
+            addCriterion("user_store is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserStoreEqualTo(Integer value) {
+            addCriterion("user_store =", value, "userStore");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserStoreNotEqualTo(Integer value) {
+            addCriterion("user_store <>", value, "userStore");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserStoreGreaterThan(Integer value) {
+            addCriterion("user_store >", value, "userStore");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserStoreGreaterThanOrEqualTo(Integer value) {
+            addCriterion("user_store >=", value, "userStore");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserStoreLessThan(Integer value) {
+            addCriterion("user_store <", value, "userStore");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserStoreLessThanOrEqualTo(Integer value) {
+            addCriterion("user_store <=", value, "userStore");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserStoreIn(List<Integer> values) {
+            addCriterion("user_store in", values, "userStore");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserStoreNotIn(List<Integer> values) {
+            addCriterion("user_store not in", values, "userStore");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserStoreBetween(Integer value1, Integer value2) {
+            addCriterion("user_store between", value1, value2, "userStore");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserStoreNotBetween(Integer value1, Integer value2) {
+            addCriterion("user_store not between", value1, value2, "userStore");
+            return (Criteria) this;
+        }
     }
 
     /**

@@ -516,6 +516,125 @@ public class OrderMenuExample {
             addCriterion("order_menu_price not between", value1, value2, "orderMenuPrice");
             return (Criteria) this;
         }
+        public Criteria andMenuPepperIsNull() {
+            addCriterion("menu_pepper is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuPepperIsNotNull() {
+            addCriterion("menu_pepper is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuPepperEqualTo(Integer value) {
+            addCriterion("menu_pepper =", value, "menuPepper");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuPepperNotEqualTo(Integer value) {
+            addCriterion("menu_pepper <>", value, "menuPepper");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuPepperGreaterThan(Integer value) {
+            addCriterion("menu_pepper >", value, "menuPepper");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuPepperGreaterThanOrEqualTo(Integer value) {
+            addCriterion("menu_pepper >=", value, "menuPepper");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuPepperLessThan(Integer value) {
+            addCriterion("menu_pepper <", value, "menuPepper");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuPepperLessThanOrEqualTo(Integer value) {
+            addCriterion("menu_pepper <=", value, "menuPepper");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuPepperIn(List<Integer> values) {
+            addCriterion("menu_pepper in", values, "menuPepper");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuPepperNotIn(List<Integer> values) {
+            addCriterion("menu_pepper not in", values, "menuPepper");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuPepperBetween(Integer value1, Integer value2) {
+            addCriterion("menu_pepper between", value1, value2, "menuPepper");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuPepperNotBetween(Integer value1, Integer value2) {
+            addCriterion("menu_pepper not between", value1, value2, "menuPepper");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuWeightIsNull() {
+            addCriterion("menu_weight is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuWeightIsNotNull() {
+            addCriterion("menu_weight is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuWeightEqualTo(Integer value) {
+            addCriterion("menu_weight =", value, "menuWeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuWeightNotEqualTo(Integer value) {
+            addCriterion("menu_weight <>", value, "menuWeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuWeightGreaterThan(Integer value) {
+            addCriterion("menu_weight >", value, "menuWeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuWeightGreaterThanOrEqualTo(Integer value) {
+            addCriterion("menu_weight >=", value, "menuWeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuWeightLessThan(Integer value) {
+            addCriterion("menu_weight <", value, "menuWeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuWeightLessThanOrEqualTo(Integer value) {
+            addCriterion("menu_weight <=", value, "menuWeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuWeightIn(List<Integer> values) {
+            addCriterion("menu_weight in", values, "menuWeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuWeightNotIn(List<Integer> values) {
+            addCriterion("menu_weight not in", values, "menuWeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuWeightBetween(Integer value1, Integer value2) {
+            addCriterion("menu_weight between", value1, value2, "menuWeight");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuWeightNotBetween(Integer value1, Integer value2) {
+            addCriterion("menu_weight not between", value1, value2, "menuWeight");
+            return (Criteria) this;
+        }
     }
 
     /**

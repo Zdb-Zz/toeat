@@ -956,6 +956,66 @@ public class MenuExample {
             addCriterion("menu_del not between", value1, value2, "menuDel");
             return (Criteria) this;
         }
+
+        public Criteria andMenuIsNiceIsNull() {
+            addCriterion("menu_is_nice is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuIsNiceIsNotNull() {
+            addCriterion("menu_is_nice is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuIsNiceEqualTo(Integer value) {
+            addCriterion("menu_is_nice =", value, "menuIsNice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuIsNiceNotEqualTo(Integer value) {
+            addCriterion("menu_is_nice <>", value, "menuIsNice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuIsNiceGreaterThan(Integer value) {
+            addCriterion("menu_is_nice >", value, "menuIsNice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuIsNiceGreaterThanOrEqualTo(Integer value) {
+            addCriterion("menu_is_nice >=", value, "menuIsNice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuIsNiceLessThan(Integer value) {
+            addCriterion("menu_is_nice <", value, "menuIsNice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuIsNiceLessThanOrEqualTo(Integer value) {
+            addCriterion("menu_is_nice <=", value, "menuIsNice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuIsNiceIn(List<Integer> values) {
+            addCriterion("menu_is_nice in", values, "menuIsNice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuIsNiceNotIn(List<Integer> values) {
+            addCriterion("menu_is_nice not in", values, "menuIsNice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuIsNiceBetween(Integer value1, Integer value2) {
+            addCriterion("menu_is_nice between", value1, value2, "menuIsNice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMenuIsNiceNotBetween(Integer value1, Integer value2) {
+            addCriterion("menu_is_nice not between", value1, value2, "menuIsNice");
+            return (Criteria) this;
+        }
     }
 
     /**

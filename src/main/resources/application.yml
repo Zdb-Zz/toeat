@@ -14,7 +14,7 @@ mybatis:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/toeat?characterEncoding=utf-8&amp&serverTimezone=UTC&amp&useSSL=false
+    url: jdbc:mysql://localhost:3306/toeat?characterEncoding=utf-8&amp&serverTimezone=Asia/Shanghai&amp&useSSL=false
     driverClassName: com.mysql.cj.jdbc.Driver
     username: root
     password: 123456

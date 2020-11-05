@@ -141,7 +141,7 @@
             #{storeStar,jdbcType=VARCHAR}, #{storeRemark,jdbcType=VARCHAR}, #{storeSales,jdbcType=BIGINT}, 
             #{storeState,jdbcType=INTEGER}, #{storeDel,jdbcType=INTEGER})
     </insert>
-    <insert id="insertSelective" parameterType="com.zdb.demo.entity.Store">
+    <insert id="insertSelective" parameterType="com.zdb.demo.entity.Store" useGeneratedKeys="true" keyProperty="storeId">
         <!--
         @mbggenerated
         -->

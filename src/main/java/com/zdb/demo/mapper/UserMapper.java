@@ -1,8 +1,8 @@
 package com.zdb.demo.mapper;
 
+import org.apache.ibatis.annotations.Param;
 import com.zdb.demo.entity.User;
 import com.zdb.demo.entity.UserExample;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
