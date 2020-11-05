@@ -10,5 +10,7 @@ import java.util.List;
 public interface OrderService {
     Boolean addOrder(JSONObject object, User user);
 
+    Boolean cancelOrder(Integer orderId);
+
     List<Orders> getOrders(Integer storeId, User user);
 }

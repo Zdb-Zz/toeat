@@ -51,6 +51,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Boolean cancelOrder(Integer orderId) {
+        return 1 == ordersMapper.deleteByPrimaryKey(orderId);
+    }
+
+    @Override
     public List<Orders> getOrders(Integer storeId, User user) {
         OrdersExample example = new OrdersExample();
         OrdersExample.Criteria criteria = example.createCriteria();
@@ -66,7 +71,7 @@ public class OrderServiceImpl implements OrderService {
             OrderMenuExample.Criteria criteria1 = orderMenuExample.createCriteria();
             criteria1.andOrderIdEqualTo(orderId);
             List<OrderMenu> orderMenus = orderMenuMapper.selectByExample(orderMenuExample);
-            for (OrderMenu orderMenu :orderMenus){
+            for (OrderMenu orderMenu : orderMenus) {
                 Menu menu = menuMapper.selectByPrimaryKey(orderMenu.getMenuId());
                 orderMenu.setMenuName(menu.getMenuName());
             }

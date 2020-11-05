@@ -57,4 +57,17 @@ public class OrderController {
             return ResultUtil.resultSuccess("提交订单成功", null, isSuccess);
         } else return ResultUtil.resultFail("提交订单失败", null, null);
     }
+
+    /**
+     * 取消订单
+     * @param orderId
+     * @return
+     */
+    @GetMapping("/cancelOrder")
+    public Map<String, Object> cancelOrder(@RequestParam("orderId") Integer orderId) {
+        Boolean isSuccess = orderService.cancelOrder(orderId);
+        if (isSuccess) {
+            return ResultUtil.resultSuccess("取消订单成功", null, isSuccess);
+        } else return ResultUtil.resultFail("取消订单失败", null, null);
+    }
 }

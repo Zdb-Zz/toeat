@@ -39,6 +39,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             user.setUserId(1);
             user.setUserName("zdb");
             user.setUserPassWord("123");
+            user.setUserStore(1);
             session.setAttribute("user",user);
 
         }

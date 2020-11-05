@@ -21,6 +21,10 @@ public class Menu implements Serializable {
      * 表字段 : menu.menu_store_id
      */
     private Integer menuStoreId;
+    /**
+     * 商家名称
+     */
+    private String storeName;
 
     /**
      * 菜品名称
@@ -328,5 +332,13 @@ public class Menu implements Serializable {
      */
     public void setMenuIsNice(Integer menuIsNice) {
         this.menuIsNice = menuIsNice;
+    }
+
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
     }
 }
