@@ -1,17 +1,16 @@
 package com.zdb.demo.service.impl;
 
-import com.zdb.demo.entity.Menu;
-import com.zdb.demo.entity.MenuCollect;
-import com.zdb.demo.entity.MenuCollectExample;
-import com.zdb.demo.entity.MenuExample;
+import com.zdb.demo.entity.*;
 import com.zdb.demo.mapper.MenuCollectMapper;
 import com.zdb.demo.mapper.MenuMapper;
+import com.zdb.demo.mapper.MenuTypeMapper;
 import com.zdb.demo.mapper.StoreMapper;
 import com.zdb.demo.service.MenuService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +22,8 @@ public class MenuServiceImpl implements MenuService {
     private MenuCollectMapper menuCollectMapper;
     @Resource
     private StoreMapper storeMapper;
+    @Resource
+    private MenuTypeMapper menuTypeMapper;
 
     @Override
     public Boolean addMenu(Menu menu) {
@@ -60,6 +61,11 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    public Boolean delMenuById(Integer menuId) {
+        return menuMapper.deleteByPrimaryKey(menuId) == 1;
+    }
+
+    @Override
     public List<Menu> getMenuList(Integer storeId) {
         MenuExample example = new MenuExample();
         MenuExample.Criteria criteria = example.createCriteria();
@@ -82,4 +88,17 @@ public class MenuServiceImpl implements MenuService {
         }
         return menuList;
     }
+
+    @Override
+    public Menu getMenuById(Integer menuId) {
+        return menuMapper.selectByPrimaryKey(menuId);
+    }
+
+    @Override
+    public List<MenuType> getMenuTypeList(Integer storeId) {
+        List<MenuType> menuTypes = menuTypeMapper.findMenuListByStoreId(storeId);
+        return menuTypes;
+    }
+
+
 }
