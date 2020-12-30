@@ -18,7 +18,7 @@ public interface MenuService {
 
     Boolean delMenuById(Integer menuId);
 
-    List<Menu> getMenuList(Integer storeId);
+    List<Menu> getMenuList(Integer storeId,Integer menuType);
 
     List<Menu> getCollectList(Integer userId);
 

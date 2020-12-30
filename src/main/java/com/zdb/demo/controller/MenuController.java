@@ -70,8 +70,9 @@ public class MenuController {
      * @return
      */
     @GetMapping("/getMenuList")
-    public Map<String, Object> getMenuList(@RequestParam("storeId") Integer storeId) {
-        List<Menu> menuList = menuService.getMenuList(storeId);
+    public Map<String, Object> getMenuList(@RequestParam("storeId") Integer storeId,
+                                           @RequestParam(value = "menuType",required = false) Integer menuType) {
+        List<Menu> menuList = menuService.getMenuList(storeId,menuType);
         for (Menu menu : menuList) {
             menu.setPriceAfterDiscount(menu.getMenuPrice().multiply(menu.getMenuDiscount()).
                     divide(new BigDecimal(100), 2, RoundingMode.HALF_DOWN));
@@ -193,4 +194,6 @@ public class MenuController {
             return ResultUtil.resultSuccess("获取菜品类别成功", null, maps);
         } else return ResultUtil.resultFail("获取菜品类别失败", null, null);
     }
+
+
 }

@@ -66,10 +66,13 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<Menu> getMenuList(Integer storeId) {
+    public List<Menu> getMenuList(Integer storeId,Integer menuType) {
         MenuExample example = new MenuExample();
         MenuExample.Criteria criteria = example.createCriteria();
-        criteria.andMenuStoreIdEqualTo(storeId);
+        criteria.andMenuStoreIdEqualTo(storeId).andMenuDelEqualTo(0);
+        if (menuType!=null){
+            criteria.andMenuTypeEqualTo(menuType);
+        }
         return menuMapper.selectByExample(example);
     }
 
