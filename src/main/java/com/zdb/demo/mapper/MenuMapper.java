@@ -85,4 +85,6 @@ public interface MenuMapper {
      * @param record
      */
     int updateByPrimaryKey(Menu record);
+
+    List<Menu> findShopCarList(@Param("userId")Integer userId);
 }

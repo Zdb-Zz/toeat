@@ -19,6 +19,19 @@
         <result column="menu_del" jdbcType="INTEGER" property="menuDel" />
         <result column="menu_is_nice" jdbcType="INTEGER" property="menuIsNice" />
     </resultMap>
+    <select id="findShopCarList" resultType="com.zdb.demo.entity.Menu">
+        SELECT
+            sc.menu_id AS menuId,
+            m.menu_name as menuName,
+            m.menu_price as menuPrice,
+            m.menu_discount as menuDiscount,
+            sc.menu_num as menuNum
+        FROM
+            shopping_cart sc
+            LEFT JOIN menu m ON m.menu_id = sc.menu_id
+        WHERE
+            sc.user_id = #{userId}
+    </select>
     <sql id="Example_Where_Clause">
         <!--
         @mbggenerated
