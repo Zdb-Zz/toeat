@@ -97,7 +97,7 @@ public class MenuController {
             if (!collects.isEmpty() && collects.size() > 0) {
                 for (MenuCollect menuCollect : collects) {
                     if (menuCollect.getMenuId().equals(menu.getMenuId())) {
-                        menu.setCollect(true);
+                        menu.setIsCollect(true);
                     }
                 }
             }
@@ -308,6 +308,7 @@ public class MenuController {
                         boolean contains = menu.getMenuName().contains(String.valueOf(selectParams[i]));
                         //如果存在菜品名字模糊相同且是这个商家的菜品，则添加
                         if (contains) {
+                            menu.setRecommendByMenu("根据你收藏的"+collectMenuName+"推荐");
                             recommendList.add(menu);
                         }
                     }
@@ -328,37 +329,63 @@ public class MenuController {
                             for (int j = 0; j < menuList.size(); j++) {
                                 //每个类型添加三个菜品
                                 recommendList.add(menuList.get(j));
+                                menuList.get(j).setRecommendByMenu("根据你收藏的"+collectMenuName+"推荐");
                                 if (j == 3) break;
                             }
                         }
                     }
                 }
             }
-        } else {
-            //如果用户没有收藏菜品，则从每个类型中获取销量最高的几个菜品
+        }
+        recommendList = recommendList.stream().collect(Collectors.collectingAndThen(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(Menu :: getMenuId))), ArrayList::new));
+
+        if (recommendList.size()<9){
+            //从每个类型中获取销量最高的几个菜品
             List<MenuType> menuTypeList = menuService.getMenuTypeList(storeId);
             for (MenuType menuType : menuTypeList) {
                 List<Menu> menuBySale = menuService.getMenuBySale(storeId, menuType.getMenuTypeId());
+                for (Menu menu : menuBySale){
+                    menu.setRecommendByMenu("大家都爱吃");
+                }
                 recommendList.addAll(menuBySale);
             }
         }
 
-        //去重
-        List<Menu> list = new ArrayList<>();
+
+        recommendList = recommendList.stream().collect(Collectors.collectingAndThen(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(Menu :: getMenuId))), ArrayList::new));
+//        //去重
+//        List<Menu> list = new ArrayList<>();
+//        for (Menu menu : recommendList) {
+//            if (!list.contains(menu)) {
+//                list.add(menu);
+//            }
+//        }
         for (Menu menu : recommendList) {
-            if (!list.contains(menu)) {
-                list.add(menu);
-            }
+            menu.setPriceAfterDiscount(menu.getMenuPrice().multiply(menu.getMenuDiscount()).
+                    divide(new BigDecimal(100), 2, RoundingMode.HALF_DOWN));
+            menu.setMenuTypeDes(menuTypeMapper.selectByPrimaryKey(menu.getMenuType()).getMenuTypeName());
+
         }
         //打乱顺序
-        shuffle1(list);
+        shuffle1(recommendList);
         //最多只返回9条
-        if (list.size() > 10) {
-            list = list.subList(0, 9);
+        if (recommendList.size() > 10) {
+            recommendList = recommendList.subList(0, 9);
+        }
+
+        List<ShoppingCart> shoppingCarts = menuService.getShoppingCarts(user.getUserId());
+        for (Menu menu :recommendList){
+            if (!shoppingCarts.isEmpty() && shoppingCarts.size() > 0) {
+                for (ShoppingCart shoppingCart : shoppingCarts) {
+                    if (menu.getMenuId() == shoppingCart.getMenuId()) {
+                        menu.setMenuNum(shoppingCart.getMenuNum());
+                    }
+                }
+            }
         }
 
         if (recommendList != null) {
-            return ResultUtil.resultSuccess("获取推荐菜单列表成功", null, list);
+            return ResultUtil.resultSuccess("获取推荐菜单列表成功", null, recommendList);
         } else return ResultUtil.resultFail("获取推荐菜单列表失败", null, null);
     }
 
