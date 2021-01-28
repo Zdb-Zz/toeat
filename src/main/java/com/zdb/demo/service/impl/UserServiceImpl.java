@@ -75,4 +75,16 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
+
+    @Override
+    public User findUser(Integer userId) {
+        User user = userMapper.selectByPrimaryKey(userId);
+        if (user.getUserStore()!=null){
+            Store store = storeMapper.selectByPrimaryKey(user.getUserStore());
+            if (Objects.nonNull(store)){
+                user.setUserStoreName(store.getStoreName());
+            }
+        }
+        return user;
+    }
 }

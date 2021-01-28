@@ -81,6 +81,22 @@ public class UserController {
     }
 
     /**
+     * 根据id获取用户信息
+     *
+     * @param
+     * @return
+     */
+    @GetMapping("/findUser")
+    public Map<String, Object> findUser(HttpSession session) {
+        User userSession = (User) session.getAttribute("user");
+        User user = userService.findUser(userSession.getUserId());
+        if (Objects.nonNull(user)) {
+            return ResultUtil.resultSuccess("用户信息获取成功", null, user);
+        } else {
+            return ResultUtil.resultFail("用户信息获取失败", null, null);
+        }
+    }
+    /**
      * 根据用户获取商家
      * @param session
      * @return
