@@ -146,7 +146,7 @@
         #{orderRemark,jdbcType=VARCHAR}, #{orderEvaluate,jdbcType=VARCHAR}, #{orderDel,jdbcType=INTEGER},
         #{orderSubmit,jdbcType=INTEGER}, #{orderRate,jdbcType=INTEGER})
     </insert>
-    <insert id="insertSelective" parameterType="com.zdb.demo.entity.Orders">
+    <insert id="insertSelective" parameterType="com.zdb.demo.entity.Orders" useGeneratedKeys="true" keyProperty="orderId">
         <!--
         @mbggenerated
         -->
