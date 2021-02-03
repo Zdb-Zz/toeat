@@ -37,7 +37,7 @@ public class User implements Serializable {
      * 用户性别
      * 表字段 : user.user_sex
      */
-    private Integer userSex;
+    private String userSex;
 
     /**
      * 电话号码
@@ -153,7 +153,7 @@ public class User implements Serializable {
      *
      * @return user.user_sex, 用户性别
      */
-    public Integer getUserSex() {
+    public String getUserSex() {
         return userSex;
     }
 
@@ -162,7 +162,7 @@ public class User implements Serializable {
      *
      * @param userSex the value for user.user_sex, 用户性别
      */
-    public void setUserSex(Integer userSex) {
+    public void setUserSex(String userSex) {
         this.userSex = userSex;
     }
 

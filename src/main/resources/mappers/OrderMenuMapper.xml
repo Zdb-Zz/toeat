@@ -11,7 +11,8 @@
         <result column="menu_num" jdbcType="INTEGER" property="menuNum" />
         <result column="order_menu_price" jdbcType="DECIMAL" property="orderMenuPrice" />
         <result column="menu_pepper" jdbcType="INTEGER" property="menuPepper" />
-        <result column="menu_weight" jdbcType="INTEGER" property="menuWeight" />
+        <result column="menu_name" jdbcType="VARCHAR" property="menuName" />
+        <result column="menu_price_one" jdbcType="DECIMAL" property="menuPriceOne" />
     </resultMap>
     <sql id="Example_Where_Clause">
         <!--
@@ -81,7 +82,8 @@
         <!--
         @mbggenerated
         -->
-        order_menu_id, order_id, menu_id, menu_num, order_menu_price, menu_pepper, menu_weight
+        order_menu_id, order_id, menu_id, menu_num, order_menu_price, menu_pepper, menu_name,
+        menu_price_one
     </sql>
     <select id="selectByExample" parameterType="com.zdb.demo.entity.OrderMenuExample" resultMap="BaseResultMap">
         <!--
@@ -107,7 +109,7 @@
         <!--
         @mbggenerated
         -->
-        select 
+        select
         <include refid="Base_Column_List" />
         from order_menu
         where order_menu_id = #{orderMenuId,jdbcType=INTEGER}
@@ -132,12 +134,12 @@
         <!--
         @mbggenerated
         -->
-        insert into order_menu (order_menu_id, order_id, menu_id, 
-            menu_num, order_menu_price, menu_pepper, 
-            menu_weight)
-        values (#{orderMenuId,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{menuId,jdbcType=INTEGER}, 
-            #{menuNum,jdbcType=INTEGER}, #{orderMenuPrice,jdbcType=DECIMAL}, #{menuPepper,jdbcType=INTEGER}, 
-            #{menuWeight,jdbcType=INTEGER})
+        insert into order_menu (order_menu_id, order_id, menu_id,
+        menu_num, order_menu_price, menu_pepper,
+        menu_name, menu_price_one)
+        values (#{orderMenuId,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{menuId,jdbcType=INTEGER},
+        #{menuNum,jdbcType=INTEGER}, #{orderMenuPrice,jdbcType=DECIMAL}, #{menuPepper,jdbcType=INTEGER},
+        #{menuName,jdbcType=VARCHAR}, #{menuPriceOne,jdbcType=DECIMAL})
     </insert>
     <insert id="insertSelective" parameterType="com.zdb.demo.entity.OrderMenu">
         <!--
@@ -163,8 +165,11 @@
             <if test="menuPepper != null">
                 menu_pepper,
             </if>
-            <if test="menuWeight != null">
-                menu_weight,
+            <if test="menuName != null">
+                menu_name,
+            </if>
+            <if test="menuPriceOne != null">
+                menu_price_one,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -186,8 +191,11 @@
             <if test="menuPepper != null">
                 #{menuPepper,jdbcType=INTEGER},
             </if>
-            <if test="menuWeight != null">
-                #{menuWeight,jdbcType=INTEGER},
+            <if test="menuName != null">
+                #{menuName,jdbcType=VARCHAR},
+            </if>
+            <if test="menuPriceOne != null">
+                #{menuPriceOne,jdbcType=DECIMAL},
             </if>
         </trim>
     </insert>
@@ -224,8 +232,11 @@
             <if test="record.menuPepper != null">
                 menu_pepper = #{record.menuPepper,jdbcType=INTEGER},
             </if>
-            <if test="record.menuWeight != null">
-                menu_weight = #{record.menuWeight,jdbcType=INTEGER},
+            <if test="record.menuName != null">
+                menu_name = #{record.menuName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.menuPriceOne != null">
+                menu_price_one = #{record.menuPriceOne,jdbcType=DECIMAL},
             </if>
         </set>
         <if test="_parameter != null">
@@ -238,12 +249,13 @@
         -->
         update order_menu
         set order_menu_id = #{record.orderMenuId,jdbcType=INTEGER},
-            order_id = #{record.orderId,jdbcType=INTEGER},
-            menu_id = #{record.menuId,jdbcType=INTEGER},
-            menu_num = #{record.menuNum,jdbcType=INTEGER},
-            order_menu_price = #{record.orderMenuPrice,jdbcType=DECIMAL},
-            menu_pepper = #{record.menuPepper,jdbcType=INTEGER},
-            menu_weight = #{record.menuWeight,jdbcType=INTEGER}
+        order_id = #{record.orderId,jdbcType=INTEGER},
+        menu_id = #{record.menuId,jdbcType=INTEGER},
+        menu_num = #{record.menuNum,jdbcType=INTEGER},
+        order_menu_price = #{record.orderMenuPrice,jdbcType=DECIMAL},
+        menu_pepper = #{record.menuPepper,jdbcType=INTEGER},
+        menu_name = #{record.menuName,jdbcType=VARCHAR},
+        menu_price_one = #{record.menuPriceOne,jdbcType=DECIMAL}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause" />
         </if>
@@ -269,8 +281,11 @@
             <if test="menuPepper != null">
                 menu_pepper = #{menuPepper,jdbcType=INTEGER},
             </if>
-            <if test="menuWeight != null">
-                menu_weight = #{menuWeight,jdbcType=INTEGER},
+            <if test="menuName != null">
+                menu_name = #{menuName,jdbcType=VARCHAR},
+            </if>
+            <if test="menuPriceOne != null">
+                menu_price_one = #{menuPriceOne,jdbcType=DECIMAL},
             </if>
         </set>
         where order_menu_id = #{orderMenuId,jdbcType=INTEGER}
@@ -281,11 +296,12 @@
         -->
         update order_menu
         set order_id = #{orderId,jdbcType=INTEGER},
-            menu_id = #{menuId,jdbcType=INTEGER},
-            menu_num = #{menuNum,jdbcType=INTEGER},
-            order_menu_price = #{orderMenuPrice,jdbcType=DECIMAL},
-            menu_pepper = #{menuPepper,jdbcType=INTEGER},
-            menu_weight = #{menuWeight,jdbcType=INTEGER}
+        menu_id = #{menuId,jdbcType=INTEGER},
+        menu_num = #{menuNum,jdbcType=INTEGER},
+        order_menu_price = #{orderMenuPrice,jdbcType=DECIMAL},
+        menu_pepper = #{menuPepper,jdbcType=INTEGER},
+        menu_name = #{menuName,jdbcType=VARCHAR},
+        menu_price_one = #{menuPriceOne,jdbcType=DECIMAL}
         where order_menu_id = #{orderMenuId,jdbcType=INTEGER}
     </update>
 </mapper>

@@ -18,14 +18,49 @@
         <result column="menu_star_pecent" jdbcType="DECIMAL" property="menuStarPecent" />
         <result column="menu_del" jdbcType="INTEGER" property="menuDel" />
         <result column="menu_is_nice" jdbcType="INTEGER" property="menuIsNice" />
+        <result column="is_collect" jdbcType="BOOLEAN" property="isCollect" />
     </resultMap>
+    <select id="getMenuList" resultType="com.zdb.demo.entity.Menu">
+        SELECT
+             m.menu_id as menuId,
+             m.menu_store_id as menuStoreId,
+             m.menu_price as menuPrice,
+             m.menu_name as menuName,
+             m.menu_discount as menuDiscount,
+             m.menu_sales as menuSales,
+             m.menu_img as menuImg,
+             m.menu_type as menuType,
+             m.menu_flavor as menuFlavor,
+             m.menu_star as menuStar,
+             m.menu_star_pecent as menuStarPecent,
+             m.menu_del as menuDel,
+             m.menu_is_nice as menuIsNice,
+             sc.menu_num as menuNum,
+             (m.menu_price*m.menu_discount/100) as priceAfterDiscount
+        FROM
+            menu m
+            LEFT JOIN shopping_cart sc ON sc.menu_id = m.menu_id AND sc.user_id = #{userId}
+        <where>
+            m.menu_del=0
+        <if test="storeId != null and storeId != ''">
+            AND m.menu_store_id = #{storeId}
+        </if>
+        <if test="menuType != null and menuType != ''">
+            AND m.menu_type = #{menuType}
+        </if>
+
+        </where>
+        order by m.menu_sales desc
+    </select>
     <select id="findShopCarList" resultType="com.zdb.demo.entity.Menu">
         SELECT
             sc.menu_id AS menuId,
             m.menu_name as menuName,
             m.menu_price as menuPrice,
             m.menu_discount as menuDiscount,
-            sc.menu_num as menuNum
+            m.menu_img as menuImg,
+            sc.menu_num as menuNum,
+            m.menu_flavor as menuFlavor
         FROM
             shopping_cart sc
             LEFT JOIN menu m ON m.menu_id = sc.menu_id

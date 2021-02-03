@@ -9,7 +9,7 @@
         <result column="user_name" jdbcType="VARCHAR" property="userName" />
         <result column="user_pass_word" jdbcType="VARCHAR" property="userPassWord" />
         <result column="user_nick" jdbcType="VARCHAR" property="userNick" />
-        <result column="user_sex" jdbcType="INTEGER" property="userSex" />
+        <result column="user_sex" jdbcType="VARCHAR" property="userSex" />
         <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
         <result column="user_mail" jdbcType="VARCHAR" property="userMail" />
         <result column="user_type" jdbcType="INTEGER" property="userType" />
@@ -140,7 +140,7 @@
             user_mail, user_type, user_store
             )
         values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userPassWord,jdbcType=VARCHAR}, 
-            #{userNick,jdbcType=VARCHAR}, #{userSex,jdbcType=INTEGER}, #{userPhone,jdbcType=VARCHAR}, 
+            #{userNick,jdbcType=VARCHAR}, #{userSex,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR},
             #{userMail,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}, #{userStore,jdbcType=INTEGER}
             )
     </insert>
@@ -236,7 +236,7 @@
                 user_nick = #{record.userNick,jdbcType=VARCHAR},
             </if>
             <if test="record.userSex != null">
-                user_sex = #{record.userSex,jdbcType=INTEGER},
+                user_sex = #{record.userSex,jdbcType=VARCHAR},
             </if>
             <if test="record.userPhone != null">
                 user_phone = #{record.userPhone,jdbcType=VARCHAR},
@@ -264,7 +264,7 @@
             user_name = #{record.userName,jdbcType=VARCHAR},
             user_pass_word = #{record.userPassWord,jdbcType=VARCHAR},
             user_nick = #{record.userNick,jdbcType=VARCHAR},
-            user_sex = #{record.userSex,jdbcType=INTEGER},
+            user_sex = #{record.userSex,jdbcType=VARCHAR},
             user_phone = #{record.userPhone,jdbcType=VARCHAR},
             user_mail = #{record.userMail,jdbcType=VARCHAR},
             user_type = #{record.userType,jdbcType=INTEGER},
@@ -289,7 +289,7 @@
                 user_nick = #{userNick,jdbcType=VARCHAR},
             </if>
             <if test="userSex != null">
-                user_sex = #{userSex,jdbcType=INTEGER},
+                user_sex = #{userSex,jdbcType=VARCHAR},
             </if>
             <if test="userPhone != null">
                 user_phone = #{userPhone,jdbcType=VARCHAR},
@@ -314,7 +314,7 @@
         set user_name = #{userName,jdbcType=VARCHAR},
             user_pass_word = #{userPassWord,jdbcType=VARCHAR},
             user_nick = #{userNick,jdbcType=VARCHAR},
-            user_sex = #{userSex,jdbcType=INTEGER},
+            user_sex = #{userSex,jdbcType=VARCHAR},
             user_phone = #{userPhone,jdbcType=VARCHAR},
             user_mail = #{userMail,jdbcType=VARCHAR},
             user_type = #{userType,jdbcType=INTEGER},

@@ -70,6 +70,11 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    public List<Menu> getMenuListSql(Integer storeId, Integer menuType, Integer userId) {
+        return  menuMapper.getMenuList(storeId,menuType,userId);
+    }
+
+    @Override
     public List<Menu> getCollectList(Integer userId) {
         List<Menu> menuList = new ArrayList<>();
         MenuCollectExample example = new MenuCollectExample();

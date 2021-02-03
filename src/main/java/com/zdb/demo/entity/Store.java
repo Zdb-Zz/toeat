@@ -31,7 +31,7 @@ public class Store implements Serializable {
      * 商家星级
      * 表字段 : store.store_star
      */
-    private String storeStar;
+    private Integer storeStar;
 
     /**
      * 商家备注信息
@@ -119,22 +119,12 @@ public class Store implements Serializable {
         this.storeCollect = storeCollect == null ? null : storeCollect.trim();
     }
 
-    /**
-     * 获取 商家星级 字段:store.store_star
-     *
-     * @return store.store_star, 商家星级
-     */
-    public String getStoreStar() {
+    public Integer getStoreStar() {
         return storeStar;
     }
 
-    /**
-     * 设置 商家星级 字段:store.store_star
-     *
-     * @param storeStar the value for store.store_star, 商家星级
-     */
-    public void setStoreStar(String storeStar) {
-        this.storeStar = storeStar == null ? null : storeStar.trim();
+    public void setStoreStar(Integer storeStar) {
+        this.storeStar = storeStar;
     }
 
     /**

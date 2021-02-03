@@ -11,4 +11,6 @@ public interface StoreService {
     Boolean editStore(Store store);
 
     List<Store> getStoreList();
+
+    Store findStoreById(Integer storeId);
 }

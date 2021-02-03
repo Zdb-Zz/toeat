@@ -21,6 +21,8 @@ public interface MenuService {
 
     List<Menu> getMenuList(Integer storeId,Integer menuType);
 
+    List<Menu> getMenuListSql(Integer storeId,Integer menuType,Integer userId);
+
     List<Menu> getCollectList(Integer userId);
 
     Menu getMenuById(Integer menuId);

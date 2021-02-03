@@ -41,4 +41,9 @@ public class StoreServiceImpl implements StoreService {
         List<Store> stores = storeMapper.selectByExample(example);
         return stores;
     }
+
+    @Override
+    public Store findStoreById(Integer storeId) {
+        return storeMapper.selectByPrimaryKey(storeId);
+    }
 }

@@ -72,27 +72,15 @@ public class MenuController {
     public Map<String, Object> getMenuList(@RequestParam("storeId") Integer storeId,
                                            @RequestParam(value = "menuType", required = false) Integer menuType,
                                            HttpSession session) {
-        List<Menu> menuList = menuService.getMenuList(storeId, menuType);
         User user = (User) session.getAttribute("user");
-        List<ShoppingCart> shoppingCarts = new ArrayList<>();
         List<MenuCollect> collects = new ArrayList<>();
+        List<Menu> menuList = menuService.getMenuListSql(storeId, menuType,user.getUserId());
+
         if (Objects.nonNull(user)) {
-            shoppingCarts = menuService.getShoppingCarts(user.getUserId());
             collects = menuService.getCollectMenu(user.getUserId());
         }
 
         for (Menu menu : menuList) {
-            menu.setPriceAfterDiscount(menu.getMenuPrice().multiply(menu.getMenuDiscount()).
-                    divide(new BigDecimal(100), 2, RoundingMode.HALF_DOWN));
-            menu.setMenuTypeDes(menuTypeMapper.selectByPrimaryKey(menu.getMenuType()).getMenuTypeName());
-            //购物车
-            if (!shoppingCarts.isEmpty() && shoppingCarts.size() > 0) {
-                for (ShoppingCart shoppingCart : shoppingCarts) {
-                    if (menu.getMenuId() == shoppingCart.getMenuId()) {
-                        menu.setMenuNum(shoppingCart.getMenuNum());
-                    }
-                }
-            }
             //收藏
             if (!collects.isEmpty() && collects.size() > 0) {
                 for (MenuCollect menuCollect : collects) {
@@ -102,7 +90,6 @@ public class MenuController {
                 }
             }
         }
-
         if (!menuList.isEmpty()) {
             return ResultUtil.resultSuccess("获取菜品列表成功", null, menuList);
         } else return ResultUtil.resultFail("获取菜品列表失败", null, null);

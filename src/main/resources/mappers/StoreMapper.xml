@@ -8,7 +8,7 @@
         <id column="store_id" jdbcType="INTEGER" property="storeId" />
         <result column="store_name" jdbcType="VARCHAR" property="storeName" />
         <result column="store_collect" jdbcType="VARCHAR" property="storeCollect" />
-        <result column="store_star" jdbcType="VARCHAR" property="storeStar" />
+        <result column="store_star" jdbcType="INTEGER" property="storeStar" />
         <result column="store_remark" jdbcType="VARCHAR" property="storeRemark" />
         <result column="store_sales" jdbcType="BIGINT" property="storeSales" />
         <result column="store_state" jdbcType="INTEGER" property="storeState" />
@@ -82,7 +82,7 @@
         <!--
         @mbggenerated
         -->
-        store_id, store_name, store_collect, store_star, store_remark, store_sales, store_state, 
+        store_id, store_name, store_collect, store_star, store_remark, store_sales, store_state,
         store_del
     </sql>
     <select id="selectByExample" parameterType="com.zdb.demo.entity.StoreExample" resultMap="BaseResultMap">
@@ -109,7 +109,7 @@
         <!--
         @mbggenerated
         -->
-        select 
+        select
         <include refid="Base_Column_List" />
         from store
         where store_id = #{storeId,jdbcType=INTEGER}
@@ -134,14 +134,14 @@
         <!--
         @mbggenerated
         -->
-        insert into store (store_id, store_name, store_collect, 
-            store_star, store_remark, store_sales, 
-            store_state, store_del)
-        values (#{storeId,jdbcType=INTEGER}, #{storeName,jdbcType=VARCHAR}, #{storeCollect,jdbcType=VARCHAR}, 
-            #{storeStar,jdbcType=VARCHAR}, #{storeRemark,jdbcType=VARCHAR}, #{storeSales,jdbcType=BIGINT}, 
-            #{storeState,jdbcType=INTEGER}, #{storeDel,jdbcType=INTEGER})
+        insert into store (store_id, store_name, store_collect,
+        store_star, store_remark, store_sales,
+        store_state, store_del)
+        values (#{storeId,jdbcType=INTEGER}, #{storeName,jdbcType=VARCHAR}, #{storeCollect,jdbcType=VARCHAR},
+        #{storeStar,jdbcType=INTEGER}, #{storeRemark,jdbcType=VARCHAR}, #{storeSales,jdbcType=BIGINT},
+        #{storeState,jdbcType=INTEGER}, #{storeDel,jdbcType=INTEGER})
     </insert>
-    <insert id="insertSelective" parameterType="com.zdb.demo.entity.Store" useGeneratedKeys="true" keyProperty="storeId">
+    <insert id="insertSelective" parameterType="com.zdb.demo.entity.Store">
         <!--
         @mbggenerated
         -->
@@ -183,7 +183,7 @@
                 #{storeCollect,jdbcType=VARCHAR},
             </if>
             <if test="storeStar != null">
-                #{storeStar,jdbcType=VARCHAR},
+                #{storeStar,jdbcType=INTEGER},
             </if>
             <if test="storeRemark != null">
                 #{storeRemark,jdbcType=VARCHAR},
@@ -224,7 +224,7 @@
                 store_collect = #{record.storeCollect,jdbcType=VARCHAR},
             </if>
             <if test="record.storeStar != null">
-                store_star = #{record.storeStar,jdbcType=VARCHAR},
+                store_star = #{record.storeStar,jdbcType=INTEGER},
             </if>
             <if test="record.storeRemark != null">
                 store_remark = #{record.storeRemark,jdbcType=VARCHAR},
@@ -249,13 +249,13 @@
         -->
         update store
         set store_id = #{record.storeId,jdbcType=INTEGER},
-            store_name = #{record.storeName,jdbcType=VARCHAR},
-            store_collect = #{record.storeCollect,jdbcType=VARCHAR},
-            store_star = #{record.storeStar,jdbcType=VARCHAR},
-            store_remark = #{record.storeRemark,jdbcType=VARCHAR},
-            store_sales = #{record.storeSales,jdbcType=BIGINT},
-            store_state = #{record.storeState,jdbcType=INTEGER},
-            store_del = #{record.storeDel,jdbcType=INTEGER}
+        store_name = #{record.storeName,jdbcType=VARCHAR},
+        store_collect = #{record.storeCollect,jdbcType=VARCHAR},
+        store_star = #{record.storeStar,jdbcType=INTEGER},
+        store_remark = #{record.storeRemark,jdbcType=VARCHAR},
+        store_sales = #{record.storeSales,jdbcType=BIGINT},
+        store_state = #{record.storeState,jdbcType=INTEGER},
+        store_del = #{record.storeDel,jdbcType=INTEGER}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause" />
         </if>
@@ -273,7 +273,7 @@
                 store_collect = #{storeCollect,jdbcType=VARCHAR},
             </if>
             <if test="storeStar != null">
-                store_star = #{storeStar,jdbcType=VARCHAR},
+                store_star = #{storeStar,jdbcType=INTEGER},
             </if>
             <if test="storeRemark != null">
                 store_remark = #{storeRemark,jdbcType=VARCHAR},
@@ -296,12 +296,12 @@
         -->
         update store
         set store_name = #{storeName,jdbcType=VARCHAR},
-            store_collect = #{storeCollect,jdbcType=VARCHAR},
-            store_star = #{storeStar,jdbcType=VARCHAR},
-            store_remark = #{storeRemark,jdbcType=VARCHAR},
-            store_sales = #{storeSales,jdbcType=BIGINT},
-            store_state = #{storeState,jdbcType=INTEGER},
-            store_del = #{storeDel,jdbcType=INTEGER}
+        store_collect = #{storeCollect,jdbcType=VARCHAR},
+        store_star = #{storeStar,jdbcType=INTEGER},
+        store_remark = #{storeRemark,jdbcType=VARCHAR},
+        store_sales = #{storeSales,jdbcType=BIGINT},
+        store_state = #{storeState,jdbcType=INTEGER},
+        store_del = #{storeDel,jdbcType=INTEGER}
         where store_id = #{storeId,jdbcType=INTEGER}
     </update>
 </mapper>
