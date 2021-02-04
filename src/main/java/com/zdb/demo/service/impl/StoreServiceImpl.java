@@ -1,7 +1,6 @@
 package com.zdb.demo.service.impl;
 
 
-
 import com.zdb.demo.entity.Store;
 import com.zdb.demo.entity.StoreExample;
 import com.zdb.demo.entity.User;
@@ -33,11 +32,14 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public List<Store> getStoreList() {
+    public List<Store> getStoreList(String storeName) {
         StoreExample example = new StoreExample();
         StoreExample.Criteria criteria = example.createCriteria();
         criteria.andStoreStateEqualTo(1);
         criteria.andStoreDelEqualTo(0);
+        if (storeName != null && storeName != "") {
+            criteria.andStoreNameLike("%" + storeName + "%");
+        }
         List<Store> stores = storeMapper.selectByExample(example);
         return stores;
     }

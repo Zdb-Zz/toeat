@@ -18,37 +18,39 @@
         <result column="menu_star_pecent" jdbcType="DECIMAL" property="menuStarPecent" />
         <result column="menu_del" jdbcType="INTEGER" property="menuDel" />
         <result column="menu_is_nice" jdbcType="INTEGER" property="menuIsNice" />
-        <result column="is_collect" jdbcType="BOOLEAN" property="isCollect" />
+        <result column="menu_text" jdbcType="VARCHAR" property="menuText" />
     </resultMap>
     <select id="getMenuList" resultType="com.zdb.demo.entity.Menu">
         SELECT
-             m.menu_id as menuId,
-             m.menu_store_id as menuStoreId,
-             m.menu_price as menuPrice,
-             m.menu_name as menuName,
-             m.menu_discount as menuDiscount,
-             m.menu_sales as menuSales,
-             m.menu_img as menuImg,
-             m.menu_type as menuType,
-             m.menu_flavor as menuFlavor,
-             m.menu_star as menuStar,
-             m.menu_star_pecent as menuStarPecent,
-             m.menu_del as menuDel,
-             m.menu_is_nice as menuIsNice,
-             sc.menu_num as menuNum,
-             (m.menu_price*m.menu_discount/100) as priceAfterDiscount
+        m.menu_id as menuId,
+        m.menu_store_id as menuStoreId,
+        m.menu_price as menuPrice,
+        m.menu_name as menuName,
+        m.menu_discount as menuDiscount,
+        m.menu_sales as menuSales,
+        m.menu_img as menuImg,
+        m.menu_type as menuType,
+        m.menu_flavor as menuFlavor,
+        m.menu_star as menuStar,
+        m.menu_star_pecent as menuStarPecent,
+        m.menu_del as menuDel,
+        m.menu_is_nice as menuIsNice,
+        sc.menu_num as menuNum,
+        (m.menu_price*m.menu_discount/100) as priceAfterDiscount
         FROM
-            menu m
-            LEFT JOIN shopping_cart sc ON sc.menu_id = m.menu_id AND sc.user_id = #{userId}
+        menu m
+        LEFT JOIN shopping_cart sc ON sc.menu_id = m.menu_id AND sc.user_id = #{userId}
         <where>
             m.menu_del=0
-        <if test="storeId != null and storeId != ''">
-            AND m.menu_store_id = #{storeId}
-        </if>
-        <if test="menuType != null and menuType != ''">
-            AND m.menu_type = #{menuType}
-        </if>
-
+            <if test="storeId != null and storeId != ''">
+                AND m.menu_store_id = #{storeId}
+            </if>
+            <if test="menuType != null and menuType != ''">
+                AND m.menu_type = #{menuType}
+            </if>
+            <if test="menuName != null and menuName != ''">
+                AND m.menu_name like '%' #{menuName} '%'
+            </if>
         </where>
         order by m.menu_sales desc
     </select>
@@ -135,8 +137,8 @@
         <!--
         @mbggenerated
         -->
-        menu_id, menu_store_id, menu_name, menu_price, menu_discount, menu_sales, menu_img, 
-        menu_type, menu_flavor, menu_star, menu_star_pecent, menu_del, menu_is_nice
+        menu_id, menu_store_id, menu_name, menu_price, menu_discount, menu_sales, menu_img,
+        menu_type, menu_flavor, menu_star, menu_star_pecent, menu_del, menu_is_nice, menu_text
     </sql>
     <select id="selectByExample" parameterType="com.zdb.demo.entity.MenuExample" resultMap="BaseResultMap">
         <!--
@@ -162,7 +164,7 @@
         <!--
         @mbggenerated
         -->
-        select 
+        select
         <include refid="Base_Column_List" />
         from menu
         where menu_id = #{menuId,jdbcType=INTEGER}
@@ -187,16 +189,16 @@
         <!--
         @mbggenerated
         -->
-        insert into menu (menu_id, menu_store_id, menu_name, 
-            menu_price, menu_discount, menu_sales, 
-            menu_img, menu_type, menu_flavor, 
-            menu_star, menu_star_pecent, menu_del, 
-            menu_is_nice)
-        values (#{menuId,jdbcType=INTEGER}, #{menuStoreId,jdbcType=INTEGER}, #{menuName,jdbcType=VARCHAR}, 
-            #{menuPrice,jdbcType=DECIMAL}, #{menuDiscount,jdbcType=DECIMAL}, #{menuSales,jdbcType=BIGINT}, 
-            #{menuImg,jdbcType=VARCHAR}, #{menuType,jdbcType=INTEGER}, #{menuFlavor,jdbcType=INTEGER}, 
-            #{menuStar,jdbcType=INTEGER}, #{menuStarPecent,jdbcType=DECIMAL}, #{menuDel,jdbcType=INTEGER}, 
-            #{menuIsNice,jdbcType=INTEGER})
+        insert into menu (menu_id, menu_store_id, menu_name,
+        menu_price, menu_discount, menu_sales,
+        menu_img, menu_type, menu_flavor,
+        menu_star, menu_star_pecent, menu_del,
+        menu_is_nice, menu_text)
+        values (#{menuId,jdbcType=INTEGER}, #{menuStoreId,jdbcType=INTEGER}, #{menuName,jdbcType=VARCHAR},
+        #{menuPrice,jdbcType=DECIMAL}, #{menuDiscount,jdbcType=DECIMAL}, #{menuSales,jdbcType=BIGINT},
+        #{menuImg,jdbcType=VARCHAR}, #{menuType,jdbcType=INTEGER}, #{menuFlavor,jdbcType=INTEGER},
+        #{menuStar,jdbcType=INTEGER}, #{menuStarPecent,jdbcType=DECIMAL}, #{menuDel,jdbcType=INTEGER},
+        #{menuIsNice,jdbcType=INTEGER}, #{menuText,jdbcType=VARCHAR})
     </insert>
     <insert id="insertSelective" parameterType="com.zdb.demo.entity.Menu">
         <!--
@@ -243,6 +245,9 @@
             <if test="menuIsNice != null">
                 menu_is_nice,
             </if>
+            <if test="menuText != null">
+                menu_text,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="menuId != null">
@@ -283,6 +288,9 @@
             </if>
             <if test="menuIsNice != null">
                 #{menuIsNice,jdbcType=INTEGER},
+            </if>
+            <if test="menuText != null">
+                #{menuText,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -340,6 +348,9 @@
             <if test="record.menuIsNice != null">
                 menu_is_nice = #{record.menuIsNice,jdbcType=INTEGER},
             </if>
+            <if test="record.menuText != null">
+                menu_text = #{record.menuText,jdbcType=VARCHAR},
+            </if>
         </set>
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause" />
@@ -351,18 +362,19 @@
         -->
         update menu
         set menu_id = #{record.menuId,jdbcType=INTEGER},
-            menu_store_id = #{record.menuStoreId,jdbcType=INTEGER},
-            menu_name = #{record.menuName,jdbcType=VARCHAR},
-            menu_price = #{record.menuPrice,jdbcType=DECIMAL},
-            menu_discount = #{record.menuDiscount,jdbcType=DECIMAL},
-            menu_sales = #{record.menuSales,jdbcType=BIGINT},
-            menu_img = #{record.menuImg,jdbcType=VARCHAR},
-            menu_type = #{record.menuType,jdbcType=INTEGER},
-            menu_flavor = #{record.menuFlavor,jdbcType=INTEGER},
-            menu_star = #{record.menuStar,jdbcType=INTEGER},
-            menu_star_pecent = #{record.menuStarPecent,jdbcType=DECIMAL},
-            menu_del = #{record.menuDel,jdbcType=INTEGER},
-            menu_is_nice = #{record.menuIsNice,jdbcType=INTEGER}
+        menu_store_id = #{record.menuStoreId,jdbcType=INTEGER},
+        menu_name = #{record.menuName,jdbcType=VARCHAR},
+        menu_price = #{record.menuPrice,jdbcType=DECIMAL},
+        menu_discount = #{record.menuDiscount,jdbcType=DECIMAL},
+        menu_sales = #{record.menuSales,jdbcType=BIGINT},
+        menu_img = #{record.menuImg,jdbcType=VARCHAR},
+        menu_type = #{record.menuType,jdbcType=INTEGER},
+        menu_flavor = #{record.menuFlavor,jdbcType=INTEGER},
+        menu_star = #{record.menuStar,jdbcType=INTEGER},
+        menu_star_pecent = #{record.menuStarPecent,jdbcType=DECIMAL},
+        menu_del = #{record.menuDel,jdbcType=INTEGER},
+        menu_is_nice = #{record.menuIsNice,jdbcType=INTEGER},
+        menu_text = #{record.menuText,jdbcType=VARCHAR}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause" />
         </if>
@@ -409,6 +421,9 @@
             <if test="menuIsNice != null">
                 menu_is_nice = #{menuIsNice,jdbcType=INTEGER},
             </if>
+            <if test="menuText != null">
+                menu_text = #{menuText,jdbcType=VARCHAR},
+            </if>
         </set>
         where menu_id = #{menuId,jdbcType=INTEGER}
     </update>
@@ -418,17 +433,18 @@
         -->
         update menu
         set menu_store_id = #{menuStoreId,jdbcType=INTEGER},
-            menu_name = #{menuName,jdbcType=VARCHAR},
-            menu_price = #{menuPrice,jdbcType=DECIMAL},
-            menu_discount = #{menuDiscount,jdbcType=DECIMAL},
-            menu_sales = #{menuSales,jdbcType=BIGINT},
-            menu_img = #{menuImg,jdbcType=VARCHAR},
-            menu_type = #{menuType,jdbcType=INTEGER},
-            menu_flavor = #{menuFlavor,jdbcType=INTEGER},
-            menu_star = #{menuStar,jdbcType=INTEGER},
-            menu_star_pecent = #{menuStarPecent,jdbcType=DECIMAL},
-            menu_del = #{menuDel,jdbcType=INTEGER},
-            menu_is_nice = #{menuIsNice,jdbcType=INTEGER}
+        menu_name = #{menuName,jdbcType=VARCHAR},
+        menu_price = #{menuPrice,jdbcType=DECIMAL},
+        menu_discount = #{menuDiscount,jdbcType=DECIMAL},
+        menu_sales = #{menuSales,jdbcType=BIGINT},
+        menu_img = #{menuImg,jdbcType=VARCHAR},
+        menu_type = #{menuType,jdbcType=INTEGER},
+        menu_flavor = #{menuFlavor,jdbcType=INTEGER},
+        menu_star = #{menuStar,jdbcType=INTEGER},
+        menu_star_pecent = #{menuStarPecent,jdbcType=DECIMAL},
+        menu_del = #{menuDel,jdbcType=INTEGER},
+        menu_is_nice = #{menuIsNice,jdbcType=INTEGER},
+        menu_text = #{menuText,jdbcType=VARCHAR}
         where menu_id = #{menuId,jdbcType=INTEGER}
     </update>
 </mapper>

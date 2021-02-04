@@ -42,15 +42,19 @@ public class OrderController {
 
     /**
      * 查询订单
-     *
-     * @param storeId
+     * @param storeId 商家id
+     * @param state 0全部 1已支付 2未支付
+     * @param timeOrder 0默认 1顺序 2倒序
      * @param session
      * @return
      */
     @GetMapping("/getOrders")
-    public Map<String, Object> getOrders(@RequestParam(value = "storeId",required = false) Integer storeId, HttpSession session) {
+    public Map<String, Object> getOrders(@RequestParam(value = "storeId",required = false) Integer storeId,
+                                         @RequestParam(value = "state",required = false) Integer state,
+                                         @RequestParam(value = "timeOrder",required = false) Integer timeOrder,
+                                         HttpSession session) {
         User user = (User) session.getAttribute("user");
-        List<Orders> orders = orderService.getOrders(storeId, user);
+        List<Orders> orders = orderService.getOrders(storeId, user,state,timeOrder);
         if (orders.isEmpty()) {
             return ResultUtil.resultFail("没有订单", null, null);
         } else return ResultUtil.resultSuccess("存在订单", null, orders);

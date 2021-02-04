@@ -88,5 +88,5 @@ public interface MenuMapper {
 
     List<Menu> findShopCarList(@Param("userId")Integer userId);
 
-    List<Menu> getMenuList(@Param("storeId")Integer storeId,@Param("menuType")Integer menuType,@Param("userId")Integer userId);
+    List<Menu> getMenuList(@Param("storeId")Integer storeId,@Param("menuType")Integer menuType,@Param("userId")Integer userId,@Param("menuName")String menuName);
 }

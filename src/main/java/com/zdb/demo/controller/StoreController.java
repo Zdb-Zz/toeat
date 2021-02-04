@@ -57,11 +57,12 @@ public class StoreController {
 
     /**
      * 获取商家列表
+     *
      * @return
      */
     @GetMapping("/getStoreList")
-    public Map<String, Object> getStoreList() {
-        List<Store> storeList = storeService.getStoreList();
+    public Map<String, Object> getStoreList(@RequestParam(value = "storeName", required = false) String storeName) {
+        List<Store> storeList = storeService.getStoreList(storeName);
         if (!storeList.isEmpty()) {
             return ResultUtil.resultSuccess("获取商家列表成功", null, storeList);
         } else return ResultUtil.resultFail("获取商家列表失败", null, null);

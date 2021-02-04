@@ -10,7 +10,7 @@ public interface StoreService {
 
     Boolean editStore(Store store);
 
-    List<Store> getStoreList();
+    List<Store> getStoreList(String storeName);
 
     Store findStoreById(Integer storeId);
 }

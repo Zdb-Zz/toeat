@@ -47,7 +47,7 @@ public class MenuServiceImpl implements MenuService {
     public Boolean unCollectMenu(Integer menuId, Integer userId) {
         MenuCollectExample example = new MenuCollectExample();
         example.createCriteria().andMenuIdEqualTo(menuId).andUserIdEqualTo(userId);
-        return 1==menuCollectMapper.deleteByExample(example);
+        return 1 == menuCollectMapper.deleteByExample(example);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class MenuServiceImpl implements MenuService {
     public List<Menu> getMenuList(Integer storeId, Integer menuType) {
         MenuExample example = new MenuExample();
         MenuExample.Criteria criteria = example.createCriteria();
-        if (storeId!=null){
+        if (storeId != null) {
             criteria.andMenuStoreIdEqualTo(storeId);
         }
         if (menuType != null) {
@@ -70,8 +70,11 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<Menu> getMenuListSql(Integer storeId, Integer menuType, Integer userId) {
-        return  menuMapper.getMenuList(storeId,menuType,userId);
+    public List<Menu> getMenuListSql(Integer storeId, Integer menuType, Integer userId, String menuName) {
+        if (menuName != null && menuName != "") {
+            menuType = null;
+        }
+        return menuMapper.getMenuList(storeId, menuType, userId, menuName);
     }
 
     @Override
@@ -172,13 +175,13 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<Menu> getMenuBySale(Integer storeId,Integer menuType) {
+    public List<Menu> getMenuBySale(Integer storeId, Integer menuType) {
         MenuExample example = new MenuExample();
         MenuExample.Criteria criteria = example.createCriteria();
-        if (storeId!=null){
+        if (storeId != null) {
             criteria.andMenuStoreIdEqualTo(storeId);
         }
-        if (menuType!=null){
+        if (menuType != null) {
             criteria.andMenuTypeEqualTo(menuType);
         }
         example.setOrderByClause("menu_sales desc");
@@ -190,7 +193,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public Boolean cleanShopCar(Integer storeId, Integer userId) {
         List<ShoppingCart> shoppingCarts = shoppingCartMapper.cleanShopCar(storeId, userId);
-        for (ShoppingCart shoppingCart :shoppingCarts){
+        for (ShoppingCart shoppingCart : shoppingCarts) {
             shoppingCartMapper.deleteByPrimaryKey(shoppingCart.getShoppingCartId());
         }
         return true;

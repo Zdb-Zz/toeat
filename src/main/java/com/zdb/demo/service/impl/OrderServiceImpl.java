@@ -74,15 +74,31 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Orders> getOrders(Integer storeId, User user) {
+    public List<Orders> getOrders(Integer storeId, User user, Integer state, Integer timeOrder) {
         OrdersExample example = new OrdersExample();
         OrdersExample.Criteria criteria = example.createCriteria();
         if (storeId != null) {
             criteria.andOrderStoreIdEqualTo(storeId);
         }
+        if (state == 1) {
+            criteria.andOrderStateEqualTo(1);
+        }
+        if (state == 2) {
+            criteria.andOrderStateEqualTo(0);
+        }
+        if (timeOrder == 0) {
+            example.setOrderByClause("order_create_time desc");
+        }
+        if (timeOrder == 1) {
+            example.setOrderByClause("order_create_time asc");
+        }
+        if (timeOrder == 2) {
+            example.setOrderByClause("order_create_time desc");
+        }
         criteria.andOrderUserIdEqualTo(user.getUserId());
         //查询未删除的订单
         criteria.andOrderDelEqualTo(0);
+
         List<Orders> orders = ordersMapper.selectByExample(example);
         for (Orders order : orders) {
             int orderId = order.getOrderId();
@@ -116,7 +132,7 @@ public class OrderServiceImpl implements OrderService {
 //        orderVo.setOrderRemark(orders.getOrderRemark());
 //        orderVo.setOrderEvaluate(orders.getOrderEvaluate());
 //        orderVo.setOrderRate(orders.getOrderRate());
-        BeanUtils.copyProperties(orders,orderVo);
+        BeanUtils.copyProperties(orders, orderVo);
         OrderMenuExample orderMenuExample = new OrderMenuExample();
         orderMenuExample.createCriteria().andOrderIdEqualTo(orderId);
         List<OrderMenu> orderMenus = orderMenuMapper.selectByExample(orderMenuExample);

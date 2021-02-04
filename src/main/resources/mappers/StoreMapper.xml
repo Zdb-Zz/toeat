@@ -13,6 +13,7 @@
         <result column="store_sales" jdbcType="BIGINT" property="storeSales" />
         <result column="store_state" jdbcType="INTEGER" property="storeState" />
         <result column="store_del" jdbcType="INTEGER" property="storeDel" />
+        <result column="store_img" jdbcType="VARCHAR" property="storeImg" />
     </resultMap>
     <sql id="Example_Where_Clause">
         <!--
@@ -83,7 +84,7 @@
         @mbggenerated
         -->
         store_id, store_name, store_collect, store_star, store_remark, store_sales, store_state,
-        store_del
+        store_del, store_img
     </sql>
     <select id="selectByExample" parameterType="com.zdb.demo.entity.StoreExample" resultMap="BaseResultMap">
         <!--
@@ -136,10 +137,12 @@
         -->
         insert into store (store_id, store_name, store_collect,
         store_star, store_remark, store_sales,
-        store_state, store_del)
+        store_state, store_del, store_img
+        )
         values (#{storeId,jdbcType=INTEGER}, #{storeName,jdbcType=VARCHAR}, #{storeCollect,jdbcType=VARCHAR},
         #{storeStar,jdbcType=INTEGER}, #{storeRemark,jdbcType=VARCHAR}, #{storeSales,jdbcType=BIGINT},
-        #{storeState,jdbcType=INTEGER}, #{storeDel,jdbcType=INTEGER})
+        #{storeState,jdbcType=INTEGER}, #{storeDel,jdbcType=INTEGER}, #{storeImg,jdbcType=VARCHAR}
+        )
     </insert>
     <insert id="insertSelective" parameterType="com.zdb.demo.entity.Store">
         <!--
@@ -171,6 +174,9 @@
             <if test="storeDel != null">
                 store_del,
             </if>
+            <if test="storeImg != null">
+                store_img,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="storeId != null">
@@ -196,6 +202,9 @@
             </if>
             <if test="storeDel != null">
                 #{storeDel,jdbcType=INTEGER},
+            </if>
+            <if test="storeImg != null">
+                #{storeImg,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -238,6 +247,9 @@
             <if test="record.storeDel != null">
                 store_del = #{record.storeDel,jdbcType=INTEGER},
             </if>
+            <if test="record.storeImg != null">
+                store_img = #{record.storeImg,jdbcType=VARCHAR},
+            </if>
         </set>
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause" />
@@ -255,7 +267,8 @@
         store_remark = #{record.storeRemark,jdbcType=VARCHAR},
         store_sales = #{record.storeSales,jdbcType=BIGINT},
         store_state = #{record.storeState,jdbcType=INTEGER},
-        store_del = #{record.storeDel,jdbcType=INTEGER}
+        store_del = #{record.storeDel,jdbcType=INTEGER},
+        store_img = #{record.storeImg,jdbcType=VARCHAR}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause" />
         </if>
@@ -287,6 +300,9 @@
             <if test="storeDel != null">
                 store_del = #{storeDel,jdbcType=INTEGER},
             </if>
+            <if test="storeImg != null">
+                store_img = #{storeImg,jdbcType=VARCHAR},
+            </if>
         </set>
         where store_id = #{storeId,jdbcType=INTEGER}
     </update>
@@ -301,7 +317,8 @@
         store_remark = #{storeRemark,jdbcType=VARCHAR},
         store_sales = #{storeSales,jdbcType=BIGINT},
         store_state = #{storeState,jdbcType=INTEGER},
-        store_del = #{storeDel,jdbcType=INTEGER}
+        store_del = #{storeDel,jdbcType=INTEGER},
+        store_img = #{storeImg,jdbcType=VARCHAR}
         where store_id = #{storeId,jdbcType=INTEGER}
     </update>
 </mapper>

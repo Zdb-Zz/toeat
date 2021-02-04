@@ -71,10 +71,11 @@ public class MenuController {
     @GetMapping("/getMenuList")
     public Map<String, Object> getMenuList(@RequestParam("storeId") Integer storeId,
                                            @RequestParam(value = "menuType", required = false) Integer menuType,
+                                           @RequestParam(value = "menuName", required = false) String menuName,
                                            HttpSession session) {
         User user = (User) session.getAttribute("user");
         List<MenuCollect> collects = new ArrayList<>();
-        List<Menu> menuList = menuService.getMenuListSql(storeId, menuType,user.getUserId());
+        List<Menu> menuList = menuService.getMenuListSql(storeId, menuType, user.getUserId(), menuName);
 
         if (Objects.nonNull(user)) {
             collects = menuService.getCollectMenu(user.getUserId());
@@ -264,7 +265,7 @@ public class MenuController {
      * 清空购物车
      */
     @GetMapping("/cleanShopCar")
-    public Map<String, Object> cleanShopCar(Integer storeId,HttpSession session) {
+    public Map<String, Object> cleanShopCar(Integer storeId, HttpSession session) {
         User user = (User) session.getAttribute("user");
         Boolean isSuccess = menuService.cleanShopCar(storeId, user.getUserId());
         if (isSuccess) {
@@ -295,7 +296,7 @@ public class MenuController {
                         boolean contains = menu.getMenuName().contains(String.valueOf(selectParams[i]));
                         //如果存在菜品名字模糊相同且是这个商家的菜品，则添加
                         if (contains) {
-                            menu.setRecommendByMenu("根据你收藏的"+collectMenuName+"推荐");
+                            menu.setRecommendByMenu("根据你收藏的" + collectMenuName + "推荐");
                             recommendList.add(menu);
                         }
                     }
@@ -316,7 +317,7 @@ public class MenuController {
                             for (int j = 0; j < menuList.size(); j++) {
                                 //每个类型添加三个菜品
                                 recommendList.add(menuList.get(j));
-                                menuList.get(j).setRecommendByMenu("根据你收藏的"+collectMenuName+"推荐");
+                                menuList.get(j).setRecommendByMenu("根据你收藏的" + collectMenuName + "推荐");
                                 if (j == 3) break;
                             }
                         }
@@ -324,14 +325,14 @@ public class MenuController {
                 }
             }
         }
-        recommendList = recommendList.stream().collect(Collectors.collectingAndThen(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(Menu :: getMenuId))), ArrayList::new));
+        recommendList = recommendList.stream().collect(Collectors.collectingAndThen(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(Menu::getMenuId))), ArrayList::new));
 
-        if (recommendList.size()<9){
+        if (recommendList.size() < 9) {
             //从每个类型中获取销量最高的几个菜品
             List<MenuType> menuTypeList = menuService.getMenuTypeList(storeId);
             for (MenuType menuType : menuTypeList) {
                 List<Menu> menuBySale = menuService.getMenuBySale(storeId, menuType.getMenuTypeId());
-                for (Menu menu : menuBySale){
+                for (Menu menu : menuBySale) {
                     menu.setRecommendByMenu("大家都爱吃");
                 }
                 recommendList.addAll(menuBySale);
@@ -339,7 +340,7 @@ public class MenuController {
         }
 
 
-        recommendList = recommendList.stream().collect(Collectors.collectingAndThen(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(Menu :: getMenuId))), ArrayList::new));
+        recommendList = recommendList.stream().collect(Collectors.collectingAndThen(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(Menu::getMenuId))), ArrayList::new));
 //        //去重
 //        List<Menu> list = new ArrayList<>();
 //        for (Menu menu : recommendList) {
@@ -361,7 +362,7 @@ public class MenuController {
         }
 
         List<ShoppingCart> shoppingCarts = menuService.getShoppingCarts(user.getUserId());
-        for (Menu menu :recommendList){
+        for (Menu menu : recommendList) {
             if (!shoppingCarts.isEmpty() && shoppingCarts.size() > 0) {
                 for (ShoppingCart shoppingCart : shoppingCarts) {
                     if (menu.getMenuId() == shoppingCart.getMenuId()) {
