@@ -8,20 +8,20 @@
         <id column="menu_type_id" jdbcType="INTEGER" property="menuTypeId" />
         <result column="menu_type_name" jdbcType="VARCHAR" property="menuTypeName" />
         <result column="menu_type_weight" jdbcType="INTEGER" property="menuTypeWeight" />
+        <result column="store_id" jdbcType="INTEGER" property="storeId" />
     </resultMap>
     <select id="findMenuListByStoreId" resultMap="BaseResultMap">
         SELECT
-            mt.*
+        mt.*
         FROM
-            menu_type mt
-            LEFT JOIN  menu m ON mt.menu_type_id = m.menu_type
+        menu_type mt
         <where>
             <if test="storeId!=null and storeId!=''">
-                m.menu_store_id = #{storeId}
+                mt.store_id = #{storeId}
             </if>
         </where>
         GROUP BY
-            mt.menu_type_id
+        mt.menu_type_weight desc
     </select>
     <sql id="Example_Where_Clause">
         <!--
@@ -91,7 +91,7 @@
         <!--
         @mbggenerated
         -->
-        menu_type_id, menu_type_name, menu_type_weight
+        menu_type_id, menu_type_name, menu_type_weight, store_id
     </sql>
     <select id="selectByExample" parameterType="com.zdb.demo.entity.MenuTypeExample" resultMap="BaseResultMap">
         <!--
@@ -117,7 +117,7 @@
         <!--
         @mbggenerated
         -->
-        select 
+        select
         <include refid="Base_Column_List" />
         from menu_type
         where menu_type_id = #{menuTypeId,jdbcType=INTEGER}
@@ -142,10 +142,10 @@
         <!--
         @mbggenerated
         -->
-        insert into menu_type (menu_type_id, menu_type_name, menu_type_weight
-            )
-        values (#{menuTypeId,jdbcType=INTEGER}, #{menuTypeName,jdbcType=VARCHAR}, #{menuTypeWeight,jdbcType=INTEGER}
-            )
+        insert into menu_type (menu_type_id, menu_type_name, menu_type_weight,
+        store_id)
+        values (#{menuTypeId,jdbcType=INTEGER}, #{menuTypeName,jdbcType=VARCHAR}, #{menuTypeWeight,jdbcType=INTEGER},
+        #{storeId,jdbcType=INTEGER})
     </insert>
     <insert id="insertSelective" parameterType="com.zdb.demo.entity.MenuType">
         <!--
@@ -162,6 +162,9 @@
             <if test="menuTypeWeight != null">
                 menu_type_weight,
             </if>
+            <if test="storeId != null">
+                store_id,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="menuTypeId != null">
@@ -172,6 +175,9 @@
             </if>
             <if test="menuTypeWeight != null">
                 #{menuTypeWeight,jdbcType=INTEGER},
+            </if>
+            <if test="storeId != null">
+                #{storeId,jdbcType=INTEGER},
             </if>
         </trim>
     </insert>
@@ -199,6 +205,9 @@
             <if test="record.menuTypeWeight != null">
                 menu_type_weight = #{record.menuTypeWeight,jdbcType=INTEGER},
             </if>
+            <if test="record.storeId != null">
+                store_id = #{record.storeId,jdbcType=INTEGER},
+            </if>
         </set>
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause" />
@@ -210,8 +219,9 @@
         -->
         update menu_type
         set menu_type_id = #{record.menuTypeId,jdbcType=INTEGER},
-            menu_type_name = #{record.menuTypeName,jdbcType=VARCHAR},
-            menu_type_weight = #{record.menuTypeWeight,jdbcType=INTEGER}
+        menu_type_name = #{record.menuTypeName,jdbcType=VARCHAR},
+        menu_type_weight = #{record.menuTypeWeight,jdbcType=INTEGER},
+        store_id = #{record.storeId,jdbcType=INTEGER}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause" />
         </if>
@@ -228,6 +238,9 @@
             <if test="menuTypeWeight != null">
                 menu_type_weight = #{menuTypeWeight,jdbcType=INTEGER},
             </if>
+            <if test="storeId != null">
+                store_id = #{storeId,jdbcType=INTEGER},
+            </if>
         </set>
         where menu_type_id = #{menuTypeId,jdbcType=INTEGER}
     </update>
@@ -237,7 +250,8 @@
         -->
         update menu_type
         set menu_type_name = #{menuTypeName,jdbcType=VARCHAR},
-            menu_type_weight = #{menuTypeWeight,jdbcType=INTEGER}
+        menu_type_weight = #{menuTypeWeight,jdbcType=INTEGER},
+        store_id = #{storeId,jdbcType=INTEGER}
         where menu_type_id = #{menuTypeId,jdbcType=INTEGER}
     </update>
 </mapper>

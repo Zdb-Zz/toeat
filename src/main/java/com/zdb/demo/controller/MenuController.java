@@ -1,5 +1,7 @@
 package com.zdb.demo.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.zdb.demo.entity.*;
 import com.zdb.demo.mapper.MenuTypeMapper;
 import com.zdb.demo.service.MenuService;
@@ -182,8 +184,8 @@ public class MenuController {
      * 获取菜品类别列表
      */
     @GetMapping("/getMenuTypeList")
-    public Map<String, Object> getMenuTypeList() {
-        List<MenuType> menuTypeList = menuService.getMenuTypeList(null);
+    public Map<String, Object> getMenuTypeList(@RequestParam("storeId") Integer storeId) {
+        List<MenuType> menuTypeList = menuService.getMenuTypeList(storeId);
         if (!menuTypeList.isEmpty()) {
             return ResultUtil.resultSuccess("获取菜品类别成功", null, menuTypeList);
         } else return ResultUtil.resultFail("获取菜品类别失败", null, null);
@@ -375,6 +377,40 @@ public class MenuController {
         if (recommendList != null) {
             return ResultUtil.resultSuccess("获取推荐菜单列表成功", null, recommendList);
         } else return ResultUtil.resultFail("获取推荐菜单列表失败", null, null);
+    }
+
+    /**
+     * 新增编辑菜品类型
+     *
+     * @param object
+     * @return
+     */
+    @PostMapping("editMenuType")
+    public Map<String, Object> editMenuType(@RequestBody JSONObject object) {
+        JSONArray array = object.getJSONArray("array");
+        List<MenuType> menuTypes = JSONArray.parseArray(array.toString(), MenuType.class);
+        Integer storeId = object.getInteger("storeId");
+        for (MenuType menuType : menuTypes) {
+            if (Objects.isNull(menuType.getMenuTypeId()) || (Objects.isNull(menuType.getMenuTypeName())
+                    && menuType.getMenuTypeName() != "") || Objects.isNull(menuType.getMenuTypeWeight())) {
+                menuType.setStoreId(storeId);
+                menuTypeMapper.insertSelective(menuType);
+            }
+            menuTypeMapper.updateByPrimaryKeySelective(menuType);
+        }
+        return ResultUtil.resultSuccess("编辑成功", null, true);
+    }
+
+    /**
+     * 新增编辑菜品类型
+     *
+     * @param menuTypeId
+     * @return
+     */
+    @GetMapping("delMenuType")
+    public Map<String, Object> delMenuType(Integer menuTypeId) {
+        menuTypeMapper.deleteByPrimaryKey(menuTypeId);
+        return ResultUtil.resultSuccess("编辑成功", null, true);
     }
 
     /**

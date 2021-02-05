@@ -34,6 +34,7 @@
         m.menu_star as menuStar,
         m.menu_star_pecent as menuStarPecent,
         m.menu_del as menuDel,
+        m.menu_text as menuText,
         m.menu_is_nice as menuIsNice,
         sc.menu_num as menuNum,
         (m.menu_price*m.menu_discount/100) as priceAfterDiscount
