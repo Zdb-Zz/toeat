@@ -1,16 +1,17 @@
 package com.zdb.demo.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.zdb.demo.entity.*;
 import com.zdb.demo.mapper.*;
 import com.zdb.demo.service.MenuService;
+import com.zdb.demo.util.DateUtilJava8;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service("menuService")
 public class MenuServiceImpl implements MenuService {
@@ -175,19 +176,34 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<Menu> getMenuBySale(Integer storeId, Integer menuType) {
-        MenuExample example = new MenuExample();
-        MenuExample.Criteria criteria = example.createCriteria();
-        if (storeId != null) {
-            criteria.andMenuStoreIdEqualTo(storeId);
+    public List<Menu> getMenuBySale(Integer storeId, Integer menuType, Integer limitNum, Integer rankType, Integer timeType) {
+        Map<String,Object> map = new HashMap<>();
+        Date startTime = null;
+        Date endTime = null;
+        if (rankType == 1) {
+            //年
+            startTime = DateUtilJava8.getYearFirst(DateUtilJava8.getNowYear());
+            endTime = DateUtilJava8.getYearLast(DateUtilJava8.getNowYear());
         }
-        if (menuType != null) {
-            criteria.andMenuTypeEqualTo(menuType);
+        if (rankType == 2) {
+            //月
+            startTime = DateUtilJava8.getMonthstart(DateUtilJava8.getNow());
+            endTime = DateUtilJava8.getMonthend(DateUtilJava8.getNow());
         }
-        example.setOrderByClause("menu_sales desc");
-        example.setLimitEnd(3);
-        List<Menu> menus = menuMapper.selectByExample(example);
-        return menus;
+        if (rankType == 3) {
+            //日
+            startTime = DateUtilJava8.getDateStart(DateUtilJava8.getNow());
+            endTime = DateUtilJava8.getDateFinish(DateUtilJava8.getNow());
+        }
+
+        map.put("startTime",DateUtilJava8.dateToString(startTime, "yyyy-MM-dd HH:mm:ss"));
+        map.put("endTime",DateUtilJava8.dateToString(endTime, "yyyy-MM-dd HH:mm:ss"));
+        map.put("storeId",storeId);
+        map.put("menuType",menuType);
+        map.put("limitNum",4);
+
+        return menuMapper.menuSalesRank(map);
+
     }
 
     @Override

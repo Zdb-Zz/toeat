@@ -4,7 +4,9 @@ import org.apache.ibatis.annotations.Param;
 import com.zdb.demo.entity.Menu;
 import com.zdb.demo.entity.MenuExample;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface MenuMapper {
     /**
@@ -89,4 +91,8 @@ public interface MenuMapper {
     List<Menu> findShopCarList(@Param("userId")Integer userId);
 
     List<Menu> getMenuList(@Param("storeId")Integer storeId,@Param("menuType")Integer menuType,@Param("userId")Integer userId,@Param("menuName")String menuName);
+
+    List<Menu> menuSalesRank(@Param("map") Map<String,Object> map);
+
+
 }

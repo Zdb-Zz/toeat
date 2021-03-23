@@ -14,7 +14,45 @@
         <result column="store_state" jdbcType="INTEGER" property="storeState" />
         <result column="store_del" jdbcType="INTEGER" property="storeDel" />
         <result column="store_img" jdbcType="VARCHAR" property="storeImg" />
+        <result column="store_address" jdbcType="VARCHAR" property="storeAddress" />
     </resultMap>
+    <select id="getDayBusiness" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT DAY
+            ( order_create_time ) as dayTime,
+            COUNT( order_id ) as orderCount,
+            SUM( order_sum_price ) as orderSum
+        FROM
+            orders
+        WHERE
+            order_store_id = #{map.storeId}
+            AND ( order_create_time BETWEEN #{map.startTime} AND #{map.endTime} )
+        GROUP BY
+            DAY ( order_create_time )
+    </select>
+    <select id="getYearBusiness" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT MONTH
+            ( order_create_time ) as dayTime,
+            COUNT( order_id ) as orderCount,
+            SUM( order_sum_price ) as orderSum
+        FROM
+            orders
+        WHERE
+            order_store_id = #{map.storeId}
+            AND ( order_create_time BETWEEN #{map.startTime} AND #{map.endTime} )
+        GROUP BY
+            MONTH ( order_create_time )
+    </select>
+
+    <select id="getOrderCount"  parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+            COUNT( order_id ) as orderCount,
+            IFNULL(SUM(order_sum_price),0) as orderSum
+        FROM
+            orders
+        WHERE
+            order_store_id = #{map.storeId}
+            AND ( order_create_time BETWEEN #{map.startTime} AND #{map.endTime} )
+    </select>
     <sql id="Example_Where_Clause">
         <!--
         @mbggenerated
@@ -84,7 +122,7 @@
         @mbggenerated
         -->
         store_id, store_name, store_collect, store_star, store_remark, store_sales, store_state,
-        store_del, store_img
+        store_del, store_img, store_address
     </sql>
     <select id="selectByExample" parameterType="com.zdb.demo.entity.StoreExample" resultMap="BaseResultMap">
         <!--
@@ -137,12 +175,12 @@
         -->
         insert into store (store_id, store_name, store_collect,
         store_star, store_remark, store_sales,
-        store_state, store_del, store_img
-        )
+        store_state, store_del, store_img,
+        store_address)
         values (#{storeId,jdbcType=INTEGER}, #{storeName,jdbcType=VARCHAR}, #{storeCollect,jdbcType=VARCHAR},
         #{storeStar,jdbcType=INTEGER}, #{storeRemark,jdbcType=VARCHAR}, #{storeSales,jdbcType=BIGINT},
-        #{storeState,jdbcType=INTEGER}, #{storeDel,jdbcType=INTEGER}, #{storeImg,jdbcType=VARCHAR}
-        )
+        #{storeState,jdbcType=INTEGER}, #{storeDel,jdbcType=INTEGER}, #{storeImg,jdbcType=VARCHAR},
+        #{storeAddress,jdbcType=VARCHAR})
     </insert>
     <insert id="insertSelective" parameterType="com.zdb.demo.entity.Store">
         <!--
@@ -177,6 +215,9 @@
             <if test="storeImg != null">
                 store_img,
             </if>
+            <if test="storeAddress != null">
+                store_address,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="storeId != null">
@@ -205,6 +246,9 @@
             </if>
             <if test="storeImg != null">
                 #{storeImg,jdbcType=VARCHAR},
+            </if>
+            <if test="storeAddress != null">
+                #{storeAddress,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -250,6 +294,9 @@
             <if test="record.storeImg != null">
                 store_img = #{record.storeImg,jdbcType=VARCHAR},
             </if>
+            <if test="record.storeAddress != null">
+                store_address = #{record.storeAddress,jdbcType=VARCHAR},
+            </if>
         </set>
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause" />
@@ -268,7 +315,8 @@
         store_sales = #{record.storeSales,jdbcType=BIGINT},
         store_state = #{record.storeState,jdbcType=INTEGER},
         store_del = #{record.storeDel,jdbcType=INTEGER},
-        store_img = #{record.storeImg,jdbcType=VARCHAR}
+        store_img = #{record.storeImg,jdbcType=VARCHAR},
+        store_address = #{record.storeAddress,jdbcType=VARCHAR}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause" />
         </if>
@@ -303,6 +351,9 @@
             <if test="storeImg != null">
                 store_img = #{storeImg,jdbcType=VARCHAR},
             </if>
+            <if test="storeAddress != null">
+                store_address = #{storeAddress,jdbcType=VARCHAR},
+            </if>
         </set>
         where store_id = #{storeId,jdbcType=INTEGER}
     </update>
@@ -318,7 +369,8 @@
         store_sales = #{storeSales,jdbcType=BIGINT},
         store_state = #{storeState,jdbcType=INTEGER},
         store_del = #{storeDel,jdbcType=INTEGER},
-        store_img = #{storeImg,jdbcType=VARCHAR}
+        store_img = #{storeImg,jdbcType=VARCHAR},
+        store_address = #{storeAddress,jdbcType=VARCHAR}
         where store_id = #{storeId,jdbcType=INTEGER}
     </update>
 </mapper>

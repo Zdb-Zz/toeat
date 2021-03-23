@@ -95,7 +95,9 @@ public class OrderServiceImpl implements OrderService {
         if (timeOrder == 2) {
             example.setOrderByClause("order_create_time desc");
         }
-        criteria.andOrderUserIdEqualTo(user.getUserId());
+        if(user!=null){
+            criteria.andOrderUserIdEqualTo(user.getUserId());
+        }
         //查询未删除的订单
         criteria.andOrderDelEqualTo(0);
 

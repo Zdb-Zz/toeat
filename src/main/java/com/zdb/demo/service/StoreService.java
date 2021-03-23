@@ -4,6 +4,7 @@ import com.zdb.demo.entity.Store;
 import com.zdb.demo.entity.User;
 
 import java.util.List;
+import java.util.Map;
 
 public interface StoreService {
     Boolean addStore(Store store, User user);
@@ -13,4 +14,8 @@ public interface StoreService {
     List<Store> getStoreList(String storeName);
 
     Store findStoreById(Integer storeId);
+
+    Map<String,Object> todayBusiness(Integer storeId);
+
+    List<Map<String,Object>> totalBusiness(Integer storeId,Integer timeType);
 }

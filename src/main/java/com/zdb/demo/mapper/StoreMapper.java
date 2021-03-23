@@ -5,6 +5,7 @@ import com.zdb.demo.entity.Store;
 import com.zdb.demo.entity.StoreExample;
 
 import java.util.List;
+import java.util.Map;
 
 public interface StoreMapper {
     /**
@@ -85,4 +86,11 @@ public interface StoreMapper {
      * @param record
      */
     int updateByPrimaryKey(Store record);
+
+    Map<String,Object> getOrderCount(@Param("map") Map<String,Object> map);
+
+    List<Map<String,Object>> getYearBusiness(@Param("map") Map<String,Object> map);
+
+
+    List<Map<String,Object>> getDayBusiness(@Param("map") Map<String,Object> map);
 }

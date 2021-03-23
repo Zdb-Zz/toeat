@@ -20,6 +20,32 @@
         <result column="menu_is_nice" jdbcType="INTEGER" property="menuIsNice" />
         <result column="menu_text" jdbcType="VARCHAR" property="menuText" />
     </resultMap>
+    <select id="menuSalesRank" parameterType="java.util.Map" resultType="com.zdb.demo.entity.Menu">
+        SELECT
+            m.menu_id as menuId,
+            m.menu_name as menuName,
+            SUM( om.menu_num ) as menuSales
+        FROM
+            menu m
+            LEFT JOIN order_menu om ON om.menu_id = m.menu_id
+            LEFT JOIN orders o ON o.order_id = om.order_id
+            LEFT JOIN menu_type mt on mt.menu_type_id = m.menu_type
+        <where>
+        <if test="map.menuType != null and map.menuType != ''">
+            AND mt.menu_type_id = #{map.menuType}
+        </if>
+        <if test="map.store != null and map.store != ''">
+            AND m.menu_store_id = #{map.storeId}
+        </if>
+        <if test="map.startTime != null and map.startTime != '' and map.endTime != null and map.endTime != ''">
+            AND ( o.order_create_time BETWEEN #{map.startTime} AND #{map.endTime} )
+        </if>
+        </where>
+        GROUP BY
+            m.menu_id
+        ORDER BY
+	        SUM( om.menu_num ) DESC limit 4
+    </select>
     <select id="getMenuList" resultType="com.zdb.demo.entity.Menu">
         SELECT
         m.menu_id as menuId,

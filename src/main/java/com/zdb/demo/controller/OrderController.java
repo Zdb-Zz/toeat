@@ -1,10 +1,8 @@
 package com.zdb.demo.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.zdb.demo.entity.Menu;
-import com.zdb.demo.entity.Orders;
-import com.zdb.demo.entity.Store;
-import com.zdb.demo.entity.User;
+import com.zdb.demo.entity.*;
+import com.zdb.demo.mapper.OrdersMapper;
 import com.zdb.demo.service.MenuService;
 import com.zdb.demo.service.OrderService;
 import com.zdb.demo.service.StoreService;
@@ -39,6 +37,9 @@ public class OrderController {
 
     @Resource
     private StoreService storeService;
+
+    @Resource
+    private OrdersMapper ordersMapper;
 
     /**
      * 查询订单
@@ -132,5 +133,36 @@ public class OrderController {
             return ResultUtil.resultFail("没有订单", null, null);
         } else return ResultUtil.resultSuccess("存在订单", null, order);
     }
+    /**
+     * 支付
+     */
+    @GetMapping("/payOrder")
+    public Map<String, Object> payOrder(@RequestParam("orderId") Integer orderId, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        Orders orderById = orderService.getOrderById(orderId);
+        orderById.setOrderState(1);
+        int i = ordersMapper.updateByPrimaryKeySelective(orderById);
+        if (i==1) {
+            return ResultUtil.resultSuccess("支付成功", null, true);
+        } else return ResultUtil.resultFail("支付失败", null, false);
+    }
 
+    /**
+     * 商家查询订单
+     * @param storeId 商家id
+     * @param state 0全部 1已支付 2未支付
+     * @param timeOrder 0默认 1顺序 2倒序
+     * @param session
+     * @return
+     */
+    @GetMapping("/getStoreOrders")
+    public Map<String, Object> getStoreOrders(@RequestParam(value = "storeId",required = false) Integer storeId,
+                                         @RequestParam(value = "state",required = false) Integer state,
+                                         @RequestParam(value = "timeOrder",required = false) Integer timeOrder,
+                                         HttpSession session) {
+        List<Orders> orders = orderService.getOrders(storeId, null,state,timeOrder);
+        if (orders.isEmpty()) {
+            return ResultUtil.resultFail("没有订单", null, null);
+        } else return ResultUtil.resultSuccess("存在订单", null, orders);
+    }
 }

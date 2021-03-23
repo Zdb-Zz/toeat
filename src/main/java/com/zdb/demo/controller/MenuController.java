@@ -202,6 +202,7 @@ public class MenuController {
             Map<String, Object> map = new HashMap<>();
             map.put("text", menuType.getMenuTypeName());
             map.put("menuTypeId", menuType.getMenuTypeId());
+            map.put("value", menuType.getMenuTypeId());
             maps.add(map);
         }
         if (!maps.isEmpty()) {
@@ -333,7 +334,7 @@ public class MenuController {
             //从每个类型中获取销量最高的几个菜品
             List<MenuType> menuTypeList = menuService.getMenuTypeList(storeId);
             for (MenuType menuType : menuTypeList) {
-                List<Menu> menuBySale = menuService.getMenuBySale(storeId, menuType.getMenuTypeId());
+                List<Menu> menuBySale = menuService.getMenuBySale(storeId, menuType.getMenuTypeId(),3,1,null);
                 for (Menu menu : menuBySale) {
                     menu.setRecommendByMenu("大家都爱吃");
                 }

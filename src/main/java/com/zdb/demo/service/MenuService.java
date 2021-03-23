@@ -41,7 +41,7 @@ public interface MenuService {
 
     List<MenuCollect> getCollectMenu(Integer userId);
 
-    List<Menu> getMenuBySale(Integer storeId,Integer menuType);
+    List<Menu> getMenuBySale(Integer storeId,Integer menuType,Integer limitNum,Integer rankType,Integer timeType);
 
     Boolean cleanShopCar(Integer storeId,Integer userId);
 }
