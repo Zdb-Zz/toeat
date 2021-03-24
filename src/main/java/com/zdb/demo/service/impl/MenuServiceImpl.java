@@ -38,10 +38,17 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Boolean collectMenu(Integer menuId, Integer userId) {
-        MenuCollect menuCollect = new MenuCollect();
-        menuCollect.setMenuId(menuId);
-        menuCollect.setUserId(userId);
-        return 1 == menuCollectMapper.insertSelective(menuCollect);
+        MenuCollectExample example = new MenuCollectExample();
+        example.createCriteria().andMenuIdEqualTo(menuId);
+        List<MenuCollect> collects = menuCollectMapper.selectByExample(example);
+        if (collects.isEmpty()){
+            MenuCollect menuCollect = new MenuCollect();
+            menuCollect.setMenuId(menuId);
+            menuCollect.setUserId(userId);
+            return 1 == menuCollectMapper.insertSelective(menuCollect);
+        }else {
+            return false;
+        }
     }
 
     @Override
@@ -88,6 +95,7 @@ public class MenuServiceImpl implements MenuService {
         for (MenuCollect collect : menuCollectList) {
             int menuId = collect.getMenuId();
             Menu menu = menuMapper.selectByPrimaryKey(menuId);
+            menu.setIsCollect(true);
             menu.setStoreName(storeMapper.selectByPrimaryKey(menu.getMenuStoreId()).getStoreName());
             menuList.add(menu);
         }
