@@ -1,15 +1,18 @@
 package com.zdb.demo.controller;
 
+import com.zdb.demo.config.WebSocket;
 import com.zdb.demo.entity.Store;
 import com.zdb.demo.entity.User;
 import com.zdb.demo.service.UserService;
 import com.zdb.demo.util.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -24,6 +27,8 @@ public class UserController {
 
     @Resource
     private UserService userService;
+    @Resource
+    private WebSocket webSocket;
 
     /**
      * 用户注册
@@ -49,7 +54,7 @@ public class UserController {
      */
     @PostMapping("/login")
     public Map<String, Object> login(@RequestBody User user, HttpSession session) {
-        Map<String,Object> map = userService.loginUser(user, session);
+        Map<String, Object> map = userService.loginUser(user, session);
         int type = (int) map.get("type");
         User newUser = new User();
         newUser = (User) map.get("user");
@@ -96,15 +101,17 @@ public class UserController {
             return ResultUtil.resultFail("用户信息获取失败", null, null);
         }
     }
+
     /**
      * 根据用户获取商家
+     *
      * @param session
      * @return
      */
     @GetMapping("/getStoreByUser")
     public Map<String, Object> getStoreByUser(HttpSession session) {
         User userSession = (User) session.getAttribute("user");
-        Store store = userService.getStoreByUser(userSession.getUserId(),session);
+        Store store = userService.getStoreByUser(userSession.getUserId(), session);
         if (Objects.nonNull(store)) {
             return ResultUtil.resultSuccess("用户商家获取成功", null, store);
         } else {

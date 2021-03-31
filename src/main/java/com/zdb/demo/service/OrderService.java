@@ -19,4 +19,8 @@ public interface OrderService {
     Orders getOrderById(Integer orderId);
 
     Boolean editOrder(Orders orders);
+
+    Boolean completeMenu(Integer orderMenuId);
+
+
 }

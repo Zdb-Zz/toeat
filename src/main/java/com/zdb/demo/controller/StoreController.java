@@ -1,10 +1,12 @@
 package com.zdb.demo.controller;
 
+import com.zdb.demo.config.WebSocket;
 import com.zdb.demo.entity.Store;
 import com.zdb.demo.entity.User;
 import com.zdb.demo.service.StoreService;
 import com.zdb.demo.util.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +27,8 @@ public class StoreController {
     @Resource
     private StoreService storeService;
 
+    @Resource
+    private WebSocket webSocket;
     /**
      * 创建商家
      *
@@ -35,9 +39,9 @@ public class StoreController {
     @PostMapping("/addStore")
     public Map<String, Object> addStore(@RequestBody Store store, HttpSession session) {
         User user = (User) session.getAttribute("user");
-        Boolean isSuccess = storeService.addStore(store, user);
-        if (isSuccess) {
-            return ResultUtil.resultSuccess("创建商家成功", null, isSuccess);
+        Integer storeId = storeService.addStore(store, user);
+        if (storeId!=null) {
+            return ResultUtil.resultSuccess("创建商家成功", null, storeId);
         } else return ResultUtil.resultFail("创建商家失败", null, null);
     }
 
@@ -66,5 +70,14 @@ public class StoreController {
         if (!storeList.isEmpty()) {
             return ResultUtil.resultSuccess("获取商家列表成功", null, storeList);
         } else return ResultUtil.resultFail("获取商家列表失败", null, null);
+    }
+
+    @RequestMapping("/sendAllWebSocket")
+    public String sendAllWebSocket(@Param("storeId") Integer storeId) {
+        Store store = storeService.findStoreById(storeId);
+        store.setStoreNotify(store.getStoreNotify()+1);
+        storeService.editStore(store);
+        webSocket.sendAllMessage(store.getStoreNotify().toString());
+        return "websocket发送！";
     }
 }

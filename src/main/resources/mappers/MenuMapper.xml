@@ -24,6 +24,10 @@
         SELECT
             m.menu_id as menuId,
             m.menu_name as menuName,
+            m.menu_price as menuPrice,
+            m.menu_discount as menuDiscount,
+            m.menu_type as menuType,
+            m.menu_img as menuImg,
             SUM( om.menu_num ) as menuSales
         FROM
             menu m
@@ -34,7 +38,7 @@
         <if test="map.menuType != null and map.menuType != ''">
             AND mt.menu_type_id = #{map.menuType}
         </if>
-        <if test="map.store != null and map.store != ''">
+        <if test="map.storeId != null">
             AND m.menu_store_id = #{map.storeId}
         </if>
         <if test="map.startTime != null and map.startTime != '' and map.endTime != null and map.endTime != ''">

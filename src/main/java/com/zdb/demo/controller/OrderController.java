@@ -160,9 +160,29 @@ public class OrderController {
                                          @RequestParam(value = "state",required = false) Integer state,
                                          @RequestParam(value = "timeOrder",required = false) Integer timeOrder,
                                          HttpSession session) {
+        Store store = new Store();
+        store.setStoreNotify(0);
+        store.setStoreId(storeId);
+        storeService.editStore(store);
         List<Orders> orders = orderService.getOrders(storeId, null,state,timeOrder);
         if (orders.isEmpty()) {
             return ResultUtil.resultFail("没有订单", null, null);
         } else return ResultUtil.resultSuccess("存在订单", null, orders);
     }
+
+    /**
+     * 改变状态
+     * @param session
+     * @return
+     */
+    @GetMapping("/completeMenu")
+    public Map<String, Object> completeMenu(@RequestParam(value = "orderMenuId") Integer orderMenuId,
+                                              HttpSession session) {
+        Boolean isSuccess = orderService.completeMenu(orderMenuId);
+
+        if (isSuccess) {
+            return ResultUtil.resultFail("修改成功", null, null);
+        } else return ResultUtil.resultSuccess("修改失败", null, null);
+    }
+
 }

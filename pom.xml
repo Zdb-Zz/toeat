@@ -75,14 +75,6 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
-        <!--		&lt;!&ndash; lombok &ndash;&gt;-->
-        <!--		<dependency>-->
-        <!--			<groupId>org.projectlombok</groupId>-->
-        <!--			<artifactId>lombok</artifactId>-->
-        <!--			<version>1.18.4</version>-->
-        <!--			<scope>provided</scope>-->
-        <!--		</dependency>-->
-        <!-- mybatis -->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
@@ -167,6 +159,12 @@
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>
             <version>3.6</version>
+        </dependency>
+        <!-- WebSocket -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+            <version>2.1.0.RELEASE</version>
         </dependency>
     </dependencies>
 

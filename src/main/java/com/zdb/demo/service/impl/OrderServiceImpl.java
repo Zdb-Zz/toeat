@@ -1,10 +1,7 @@
 package com.zdb.demo.service.impl;
 
 import com.zdb.demo.entity.*;
-import com.zdb.demo.mapper.MenuMapper;
-import com.zdb.demo.mapper.OrderMenuMapper;
-import com.zdb.demo.mapper.OrdersMapper;
-import com.zdb.demo.mapper.StoreMapper;
+import com.zdb.demo.mapper.*;
 import com.zdb.demo.service.OrderService;
 import com.zdb.demo.util.DateUtilJava8;
 import com.zdb.demo.vo.OrderVo;
@@ -36,6 +33,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Resource
     private StoreMapper storeMapper;
+
+    @Resource
+    private UserMapper userMapper;
 
     @Override
     public Integer addOrder(List<Menu> menus, String remark, BigDecimal totalPrice, Integer storeId, User user) {
@@ -108,16 +108,25 @@ public class OrderServiceImpl implements OrderService {
             OrderMenuExample.Criteria criteria1 = orderMenuExample.createCriteria();
             criteria1.andOrderIdEqualTo(orderId);
             List<OrderMenu> orderMenus = orderMenuMapper.selectByExample(orderMenuExample);
-            for (OrderMenu orderMenu : orderMenus) {
-                Menu menu = menuMapper.selectByPrimaryKey(orderMenu.getMenuId());
-                orderMenu.setMenuName(menu.getMenuName());
-            }
             if (order.getOrderCreateTime() != null) {
                 String format = DateUtilJava8.dateToString(order.getOrderCreateTime(), "yyyy-MM-dd HH:mm:ss");
                 order.setOrderCreateTime(DateUtilJava8.StringToDate(format));
             }
+            order.setIsComplete(1);
+            for (OrderMenu orderMenu1:orderMenus){
+                if (orderMenu1.getOrderMenuState()==0){
+                    order.setIsComplete(0);
+                }
+            }
             order.setStoreName(storeMapper.selectByPrimaryKey(order.getOrderStoreId()).getStoreName());
             order.setOrderMenus(orderMenus);
+            User user1 = userMapper.selectByPrimaryKey(order.getOrderUserId());
+            if(user1.getUserName()!=null){
+                order.setUserName(user1.getUserName());
+            }
+            if(user1.getUserPhone()!=null){
+                order.setUserPhone(user1.getUserPhone());
+            }
         }
         return orders;
     }
@@ -145,6 +154,13 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Boolean editOrder(Orders orders) {
         return 1 == ordersMapper.updateByPrimaryKeySelective(orders);
+    }
+
+    @Override
+    public Boolean completeMenu(Integer orderMenuId) {
+        OrderMenu orderMenu = orderMenuMapper.selectByPrimaryKey(orderMenuId);
+        orderMenu.setOrderMenuState(1);
+        return orderMenuMapper.updateByPrimaryKeySelective(orderMenu)==1;
     }
 
 

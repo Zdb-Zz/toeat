@@ -1,9 +1,11 @@
 package com.zdb.demo.service.impl;
 
 
+import com.zdb.demo.entity.MenuType;
 import com.zdb.demo.entity.Store;
 import com.zdb.demo.entity.StoreExample;
 import com.zdb.demo.entity.User;
+import com.zdb.demo.mapper.MenuTypeMapper;
 import com.zdb.demo.mapper.StoreMapper;
 import com.zdb.demo.mapper.UserMapper;
 import com.zdb.demo.service.StoreService;
@@ -19,12 +21,20 @@ public class StoreServiceImpl implements StoreService {
     private StoreMapper storeMapper;
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private MenuTypeMapper menuTypeMapper;
 
     @Override
-    public Boolean addStore(Store store, User user) {
+    public Integer addStore(Store store, User user) {
         storeMapper.insertSelective(store);
+        MenuType menuType = new MenuType();
+        menuType.setStoreId(store.getStoreId());
+        menuType.setMenuTypeName("全部");
+        menuType.setMenuTypeWeight(100);
+        menuTypeMapper.insertSelective(menuType);
         user.setUserStore(store.getStoreId());
-        return 1 == userMapper.updateByPrimaryKeySelective(user);
+        userMapper.updateByPrimaryKeySelective(user);
+        return store.getStoreId();
     }
 
     @Override

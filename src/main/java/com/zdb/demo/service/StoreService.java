@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface StoreService {
-    Boolean addStore(Store store, User user);
+    Integer addStore(Store store, User user);
 
     Boolean editStore(Store store);
 

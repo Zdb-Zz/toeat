@@ -62,7 +62,11 @@ public class Store implements Serializable {
      * 表字段 : store.store_img
      */
     private String storeImg;
-
+    /**
+     * 通知
+     * 表字段 : store.store_notify
+     */
+    private Integer storeNotify;
     /**
      * 商家地址
      * 表字段 : store.store_address
@@ -235,5 +239,13 @@ public class Store implements Serializable {
      */
     public void setStoreAddress(String storeAddress) {
         this.storeAddress = storeAddress == null ? null : storeAddress.trim();
+    }
+
+    public Integer getStoreNotify() {
+        return storeNotify;
+    }
+
+    public void setStoreNotify(Integer storeNotify) {
+        this.storeNotify = storeNotify;
     }
 }
