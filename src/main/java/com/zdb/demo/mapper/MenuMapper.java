@@ -92,6 +92,8 @@ public interface MenuMapper {
 
     List<Menu> getMenuList(@Param("storeId")Integer storeId,@Param("menuType")Integer menuType,@Param("userId")Integer userId,@Param("menuName")String menuName);
 
+    List<Menu> findFromOrder(@Param("storeId")Integer storeId,@Param("userId")Integer userId);
+
     List<Menu> menuSalesRank(@Param("map") Map<String,Object> map);
 
 

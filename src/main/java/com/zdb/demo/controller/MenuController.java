@@ -330,19 +330,23 @@ public class MenuController {
         }
         recommendList = recommendList.stream().collect(Collectors.collectingAndThen(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(Menu::getMenuId))), ArrayList::new));
 
-        if (recommendList.size() < 9) {
-            //从每个类型中获取销量最高的几个菜品
-            List<MenuType> menuTypeList = menuService.getMenuTypeList(storeId);
-            for (MenuType menuType : menuTypeList) {
-                List<Menu> menuBySale = menuService.getMenuBySale(storeId, menuType.getMenuTypeId(),3,1,null);
-                for (Menu menu : menuBySale) {
-                    menu.setRecommendByMenu("大家都爱吃");
-                }
-                recommendList.addAll(menuBySale);
+        //从每个类型中获取销量最高的几个菜品
+        List<MenuType> menuTypeList = menuService.getMenuTypeList(storeId);
+        for (MenuType menuType : menuTypeList) {
+            List<Menu> menuBySale = menuService.getMenuBySale(storeId, menuType.getMenuTypeId(), 2, 1, null);
+            for (Menu menu : menuBySale) {
+                menu.setRecommendByMenu("大家都爱吃");
             }
+            recommendList.addAll(menuBySale);
         }
 
-
+        List<Menu> fromOrders = menuService.findFromOrder(user.getUserId(), storeId);
+        for (Menu fromOrder : fromOrders) {
+            fromOrder.setRecommendByMenu("点过最多");
+        }
+        recommendList.addAll(fromOrders);
+        //打乱顺序
+        shuffle1(recommendList);
         recommendList = recommendList.stream().collect(Collectors.collectingAndThen(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(Menu::getMenuId))), ArrayList::new));
 //        //去重
 //        List<Menu> list = new ArrayList<>();

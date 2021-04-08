@@ -20,6 +20,22 @@
         <result column="menu_is_nice" jdbcType="INTEGER" property="menuIsNice" />
         <result column="menu_text" jdbcType="VARCHAR" property="menuText" />
     </resultMap>
+    <select id="findFromOrder" resultMap="BaseResultMap">
+        SELECT
+            m.*
+        FROM
+            order_menu om
+            LEFT JOIN orders o ON o.order_id = om.order_id
+            LEFT JOIN menu m ON m.menu_id = om.menu_id
+        WHERE
+            order_user_id = #{userId}
+            AND order_store_id = #{storeId}
+        GROUP BY
+            om.menu_id
+        ORDER BY
+            COUNT( om.order_menu_id ) DESC
+            LIMIT 3
+    </select>
     <select id="menuSalesRank" parameterType="java.util.Map" resultType="com.zdb.demo.entity.Menu">
         SELECT
             m.menu_id as menuId,

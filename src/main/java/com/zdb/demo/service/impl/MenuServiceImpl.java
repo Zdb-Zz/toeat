@@ -176,6 +176,12 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    public List<Menu> findFromOrder(Integer userId, Integer storeId) {
+        List<Menu> fromOrder = menuMapper.findFromOrder(storeId, userId);
+        return fromOrder;
+    }
+
+    @Override
     public List<MenuCollect> getCollectMenu(Integer userId) {
         MenuCollectExample example = new MenuCollectExample();
         example.createCriteria().andUserIdEqualTo(userId);
