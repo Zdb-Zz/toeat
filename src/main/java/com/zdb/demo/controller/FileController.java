@@ -45,7 +45,7 @@ public class FileController {
 	 */
 
 	@PostMapping("/uploadFile")
-	@ResponseBody // 这里upfile是config.json中图片提交的表单名称
+	@ResponseBody //
 	public Map<String, Object> uploadFile(
 			@RequestParam(value = "file") MultipartFile file,
 			@RequestParam(value = "dirName",required = false) String dirName) throws Exception {

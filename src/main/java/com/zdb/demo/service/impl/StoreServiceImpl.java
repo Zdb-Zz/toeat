@@ -29,9 +29,11 @@ public class StoreServiceImpl implements StoreService {
         storeMapper.insertSelective(store);
         MenuType menuType = new MenuType();
         menuType.setStoreId(store.getStoreId());
+        //创建商家后自动为该商家生成一个菜品类别
         menuType.setMenuTypeName("全部");
         menuType.setMenuTypeWeight(100);
         menuTypeMapper.insertSelective(menuType);
+        //将商家id绑定到用户表中
         user.setUserStore(store.getStoreId());
         userMapper.updateByPrimaryKeySelective(user);
         return store.getStoreId();

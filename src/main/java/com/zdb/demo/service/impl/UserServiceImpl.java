@@ -27,10 +27,12 @@ public class UserServiceImpl implements UserService {
         UserExample example = new UserExample();
         UserExample.Criteria criteria = example.createCriteria();
         criteria.andUserNameEqualTo(user.getUserName());
+        //查询用户列表
         List<User> userList = userMapper.selectByExample(example);
         if (!userList.isEmpty() && userList.size() > 0) {
+            //存在用户，返回失败
             return false;
-        } else return 1 == userMapper.insertSelective(user);
+        } else return 1 == userMapper.insertSelective(user);//不存在，返回成功
     }
 
     @Override
@@ -39,6 +41,7 @@ public class UserServiceImpl implements UserService {
         UserExample example = new UserExample();
         UserExample.Criteria criteria = example.createCriteria();
         criteria.andUserNameEqualTo(user.getUserName());
+        //查询用户列表
         List<User> userList = userMapper.selectByExample(example);
         if (!userList.isEmpty()) {
             if (user.getUserPassWord().equals(userList.get(0).getUserPassWord())) {
@@ -55,7 +58,7 @@ public class UserServiceImpl implements UserService {
             }
             //"用户名不存在,请先注册"
         } else {
-            map.put("type",2);
+            map.put("type",3);
             return map;
         }
     }

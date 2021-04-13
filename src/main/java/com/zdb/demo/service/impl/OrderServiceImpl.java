@@ -60,8 +60,8 @@ public class OrderServiceImpl implements OrderService {
             orderMenuMapper.insertSelective(orderMenu);
             Menu oldMenu = menuMapper.selectByPrimaryKey(menu.getMenuId());
             if (Objects.nonNull(oldMenu) && menu.getMenuNum() != null) {
+                //遍历数组，将订单中菜品数量累加
                 menu.setMenuSales(oldMenu.getMenuSales() + menu.getMenuNum());
-
             }
             menuMapper.updateByPrimaryKeySelective(menu);
         }
@@ -112,8 +112,10 @@ public class OrderServiceImpl implements OrderService {
                 String format = DateUtilJava8.dateToString(order.getOrderCreateTime(), "yyyy-MM-dd HH:mm:ss");
                 order.setOrderCreateTime(DateUtilJava8.StringToDate(format));
             }
+            //默认订单为已完成状态
             order.setIsComplete(1);
             for (OrderMenu orderMenu1:orderMenus){
+                //遍历列表，如果存在未完成状态的菜品，则将订单置为未完成状态
                 if (orderMenu1.getOrderMenuState()==0){
                     order.setIsComplete(0);
                 }
