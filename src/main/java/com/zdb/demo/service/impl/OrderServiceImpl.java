@@ -108,10 +108,7 @@ public class OrderServiceImpl implements OrderService {
             OrderMenuExample.Criteria criteria1 = orderMenuExample.createCriteria();
             criteria1.andOrderIdEqualTo(orderId);
             List<OrderMenu> orderMenus = orderMenuMapper.selectByExample(orderMenuExample);
-            if (order.getOrderCreateTime() != null) {
-                String format = DateUtilJava8.dateToString(order.getOrderCreateTime(), "yyyy-MM-dd HH:mm:ss");
-                order.setOrderCreateTime(DateUtilJava8.StringToDate(format));
-            }
+
             //默认订单为已完成状态
             order.setIsComplete(1);
             for (OrderMenu orderMenu1:orderMenus){

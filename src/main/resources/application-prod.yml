@@ -20,7 +20,8 @@ spring:
     driverClassName: com.mysql.cj.jdbc.Driver
     username: root
     password: zdb190714
-
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
 #PagerHelper配置
 pagehelper:
   helperDialect: mysql
@@ -44,3 +45,4 @@ eureka:
 
 
 uploadPath: /usr/local/images/
+
