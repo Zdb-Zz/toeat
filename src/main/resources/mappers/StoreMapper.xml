@@ -17,6 +17,12 @@
         <result column="store_address" jdbcType="VARCHAR" property="storeAddress" />
         <result column="store_notify" jdbcType="INTEGER" property="storeNotify" />
     </resultMap>
+    <select id="getRateAvg" resultType="java.math.BigDecimal">
+        UPDATE store
+        SET store_star = ( SELECT AVG( order_rate ) FROM orders WHERE order_store_id = #{storeId} AND order_state = 1 )
+        WHERE
+            store_id = #{storeId}
+    </select>
     <select id="getDayBusiness" parameterType="java.util.Map" resultType="java.util.Map">
         SELECT DAY
             ( order_create_time ) as dayTime,

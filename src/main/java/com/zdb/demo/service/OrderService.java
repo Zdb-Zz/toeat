@@ -14,7 +14,7 @@ public interface OrderService {
 
     Boolean cancelOrder(Integer orderId);
 
-    List<Orders> getOrders(Integer storeId, User user,Integer state,Integer timeOrder);
+    List<Orders> getOrders(Integer storeId, User user,Integer state,Integer timeOrder,Integer pageIndex,Integer pageSize);
 
     Orders getOrderById(Integer orderId);
 

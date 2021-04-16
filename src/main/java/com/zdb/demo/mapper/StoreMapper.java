@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Param;
 import com.zdb.demo.entity.Store;
 import com.zdb.demo.entity.StoreExample;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -93,4 +94,6 @@ public interface StoreMapper {
 
 
     List<Map<String,Object>> getDayBusiness(@Param("map") Map<String,Object> map);
+
+    BigDecimal getRateAvg(@Param("storeId") Integer storeId);
 }

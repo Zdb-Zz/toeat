@@ -1,5 +1,6 @@
 package com.zdb.demo.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.zdb.demo.entity.*;
 import com.zdb.demo.mapper.*;
 import com.zdb.demo.service.OrderService;
@@ -74,7 +75,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Orders> getOrders(Integer storeId, User user, Integer state, Integer timeOrder) {
+    public List<Orders> getOrders(Integer storeId, User user, Integer state, Integer timeOrder,Integer pageIndex,Integer pageSize) {
         OrdersExample example = new OrdersExample();
         OrdersExample.Criteria criteria = example.createCriteria();
         if (storeId != null) {
@@ -100,7 +101,7 @@ public class OrderServiceImpl implements OrderService {
         }
         //查询未删除的订单
         criteria.andOrderDelEqualTo(0);
-
+        PageHelper.startPage(pageIndex,pageSize);
         List<Orders> orders = ordersMapper.selectByExample(example);
         for (Orders order : orders) {
             int orderId = order.getOrderId();

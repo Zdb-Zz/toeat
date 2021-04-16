@@ -53,9 +53,11 @@ public class OrderController {
     public Map<String, Object> getOrders(@RequestParam(value = "storeId",required = false) Integer storeId,
                                          @RequestParam(value = "state",required = false) Integer state,
                                          @RequestParam(value = "timeOrder",required = false) Integer timeOrder,
+                                         @RequestParam(value = "pageIndex",defaultValue = "1") Integer pageIndex,
+                                         @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize,
                                          HttpSession session) {
         User user = (User) session.getAttribute("user");
-        List<Orders> orders = orderService.getOrders(storeId, user,state,timeOrder);
+        List<Orders> orders = orderService.getOrders(storeId, user,state,timeOrder,pageIndex,pageSize);
         if (orders.isEmpty()) {
             return ResultUtil.resultFail("没有订单", null, null);
         } else return ResultUtil.resultSuccess("存在订单", null, orders);
@@ -126,9 +128,7 @@ public class OrderController {
         order.setOrderRate(rate);
         orderService.editOrder(order);
         Integer storeId = order.getOrderStoreId();
-        Store store = storeService.findStoreById(storeId);
-        store.setStoreStar((store.getStoreStar()+rate)/2);
-        storeService.editStore(store);
+        storeService.getRateAvg(storeId);
         if (Objects.isNull(order)) {
             return ResultUtil.resultFail("没有订单", null, null);
         } else return ResultUtil.resultSuccess("存在订单", null, order);
@@ -159,12 +159,14 @@ public class OrderController {
     public Map<String, Object> getStoreOrders(@RequestParam(value = "storeId",required = false) Integer storeId,
                                          @RequestParam(value = "state",required = false) Integer state,
                                          @RequestParam(value = "timeOrder",required = false) Integer timeOrder,
+                                         @RequestParam(value = "pageIndex",defaultValue = "1") Integer pageIndex,
+                                         @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize,
                                          HttpSession session) {
         Store store = new Store();
         store.setStoreNotify(0);
         store.setStoreId(storeId);
         storeService.editStore(store);
-        List<Orders> orders = orderService.getOrders(storeId, null,state,timeOrder);
+        List<Orders> orders = orderService.getOrders(storeId, null,state,timeOrder,pageIndex,pageSize);
         if (orders.isEmpty()) {
             return ResultUtil.resultFail("没有订单", null, null);
         } else return ResultUtil.resultSuccess("存在订单", null, orders);

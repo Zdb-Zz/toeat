@@ -13,6 +13,7 @@ import com.zdb.demo.util.DateUtilJava8;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.*;
 
 @Service("storeService")
@@ -99,5 +100,11 @@ public class StoreServiceImpl implements StoreService {
             return result;
         }
 
+    }
+
+    @Override
+    public Boolean getRateAvg(Integer storeId) {
+        storeMapper.getRateAvg(storeId);
+        return true;
     }
 }
