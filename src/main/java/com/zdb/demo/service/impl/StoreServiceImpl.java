@@ -1,16 +1,15 @@
 package com.zdb.demo.service.impl;
 
 
-import com.zdb.demo.entity.MenuType;
-import com.zdb.demo.entity.Store;
-import com.zdb.demo.entity.StoreExample;
-import com.zdb.demo.entity.User;
+import com.zdb.demo.entity.*;
+import com.zdb.demo.mapper.AdvertisementMapper;
 import com.zdb.demo.mapper.MenuTypeMapper;
 import com.zdb.demo.mapper.StoreMapper;
 import com.zdb.demo.mapper.UserMapper;
 import com.zdb.demo.service.StoreService;
 import com.zdb.demo.util.DateUtilJava8;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -24,6 +23,8 @@ public class StoreServiceImpl implements StoreService {
     private UserMapper userMapper;
     @Resource
     private MenuTypeMapper menuTypeMapper;
+    @Resource
+    private AdvertisementMapper advertisementMapper;
 
     @Override
     public Integer addStore(Store store, User user) {
@@ -106,5 +107,28 @@ public class StoreServiceImpl implements StoreService {
     public Boolean getRateAvg(Integer storeId) {
         storeMapper.getRateAvg(storeId);
         return true;
+    }
+
+    @Override
+    public List<String> editAdvertisement(List<String> imgList, Integer storeId,Integer type) {
+        AdvertisementExample example = new AdvertisementExample();
+        example.createCriteria().andStoreIdEqualTo(storeId).andAdvertisementTypeEqualTo(type);
+        advertisementMapper.deleteByExample(example);
+        for (String imgSrc : imgList) {
+            Advertisement advertisement = new Advertisement();
+            advertisement.setAdvertisementType(type);
+            advertisement.setStoreId(storeId);
+            advertisement.setAdvertisementImg(imgSrc);
+            advertisementMapper.insertSelective(advertisement);
+        }
+        return null;
+    }
+
+    @Override
+    public List<Advertisement> getAdvertisement(Integer storeId, Integer type) {
+        AdvertisementExample example = new AdvertisementExample();
+        example.createCriteria().andStoreIdEqualTo(storeId).andAdvertisementTypeEqualTo(type);
+        List<Advertisement> advertisements = advertisementMapper.selectByExample(example);
+        return advertisements;
     }
 }

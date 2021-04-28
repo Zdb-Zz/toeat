@@ -118,4 +118,20 @@ public class UserController {
             return ResultUtil.resultFail("用户商家获取失败", null, null);
         }
     }
+
+    /**
+     * 修改密码
+     *
+     * @param
+     * @return
+     */
+    @PostMapping("/forget")
+    public Map<String, Object> forget(@RequestBody User user, HttpSession session) {
+        Boolean isSuccess = userService.forget(user);
+        if (isSuccess) {
+            return ResultUtil.resultSuccess("修改密码成功", null, isSuccess);
+        } else {
+            return ResultUtil.resultFail("修改密码失败", null, isSuccess);
+        }
+    }
 }

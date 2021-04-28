@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zdb.demo.mapper.AdvertisementMapper">
+    <resultMap id="BaseResultMap" type="com.zdb.demo.entity.Advertisement">
+        <!--
+        @mbggenerated
+        -->
+        <id column="advertisement_id" jdbcType="INTEGER" property="advertisementId" />
+        <result column="store_id" jdbcType="INTEGER" property="storeId" />
+        <result column="advertisement_type" jdbcType="INTEGER" property="advertisementType" />
+        <result column="advertisement_img" jdbcType="VARCHAR" property="advertisementImg" />
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <!--
+        @mbggenerated
+        -->
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <!--
+        @mbggenerated
+        -->
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        <!--
+        @mbggenerated
+        -->
+        advertisement_id, store_id, advertisement_type, advertisement_img
+    </sql>
+    <select id="selectByExample" parameterType="com.zdb.demo.entity.AdvertisementExample" resultMap="BaseResultMap">
+        <!--
+        @mbggenerated
+        -->
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from advertisement
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limitStart != null and limitStart>=0">
+            limit #{limitStart} , #{limitEnd}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--
+        @mbggenerated
+        -->
+        select 
+        <include refid="Base_Column_List" />
+        from advertisement
+        where advertisement_id = #{advertisementId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--
+        @mbggenerated
+        -->
+        delete from advertisement
+        where advertisement_id = #{advertisementId,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.zdb.demo.entity.AdvertisementExample">
+        <!--
+        @mbggenerated
+        -->
+        delete from advertisement
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.zdb.demo.entity.Advertisement">
+        <!--
+        @mbggenerated
+        -->
+        insert into advertisement (advertisement_id, store_id, advertisement_type, 
+            advertisement_img)
+        values (#{advertisementId,jdbcType=INTEGER}, #{storeId,jdbcType=INTEGER}, #{advertisementType,jdbcType=INTEGER}, 
+            #{advertisementImg,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.zdb.demo.entity.Advertisement">
+        <!--
+        @mbggenerated
+        -->
+        insert into advertisement
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="advertisementId != null">
+                advertisement_id,
+            </if>
+            <if test="storeId != null">
+                store_id,
+            </if>
+            <if test="advertisementType != null">
+                advertisement_type,
+            </if>
+            <if test="advertisementImg != null">
+                advertisement_img,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="advertisementId != null">
+                #{advertisementId,jdbcType=INTEGER},
+            </if>
+            <if test="storeId != null">
+                #{storeId,jdbcType=INTEGER},
+            </if>
+            <if test="advertisementType != null">
+                #{advertisementType,jdbcType=INTEGER},
+            </if>
+            <if test="advertisementImg != null">
+                #{advertisementImg,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.zdb.demo.entity.AdvertisementExample" resultType="java.lang.Integer">
+        <!--
+        @mbggenerated
+        -->
+        select count(*) from advertisement
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        <!--
+        @mbggenerated
+        -->
+        update advertisement
+        <set>
+            <if test="record.advertisementId != null">
+                advertisement_id = #{record.advertisementId,jdbcType=INTEGER},
+            </if>
+            <if test="record.storeId != null">
+                store_id = #{record.storeId,jdbcType=INTEGER},
+            </if>
+            <if test="record.advertisementType != null">
+                advertisement_type = #{record.advertisementType,jdbcType=INTEGER},
+            </if>
+            <if test="record.advertisementImg != null">
+                advertisement_img = #{record.advertisementImg,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        <!--
+        @mbggenerated
+        -->
+        update advertisement
+        set advertisement_id = #{record.advertisementId,jdbcType=INTEGER},
+            store_id = #{record.storeId,jdbcType=INTEGER},
+            advertisement_type = #{record.advertisementType,jdbcType=INTEGER},
+            advertisement_img = #{record.advertisementImg,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zdb.demo.entity.Advertisement">
+        <!--
+        @mbggenerated
+        -->
+        update advertisement
+        <set>
+            <if test="storeId != null">
+                store_id = #{storeId,jdbcType=INTEGER},
+            </if>
+            <if test="advertisementType != null">
+                advertisement_type = #{advertisementType,jdbcType=INTEGER},
+            </if>
+            <if test="advertisementImg != null">
+                advertisement_img = #{advertisementImg,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where advertisement_id = #{advertisementId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.zdb.demo.entity.Advertisement">
+        <!--
+        @mbggenerated
+        -->
+        update advertisement
+        set store_id = #{storeId,jdbcType=INTEGER},
+            advertisement_type = #{advertisementType,jdbcType=INTEGER},
+            advertisement_img = #{advertisementImg,jdbcType=VARCHAR}
+        where advertisement_id = #{advertisementId,jdbcType=INTEGER}
+    </update>
+</mapper>

@@ -1,5 +1,6 @@
 package com.zdb.demo.service;
 
+import com.zdb.demo.entity.Advertisement;
 import com.zdb.demo.entity.Store;
 import com.zdb.demo.entity.User;
 
@@ -21,4 +22,8 @@ public interface StoreService {
     List<Map<String,Object>> totalBusiness(Integer storeId,Integer timeType);
 
     Boolean getRateAvg(Integer storeId);
+
+    List<String> editAdvertisement(List<String> imgList,Integer storeId,Integer type);
+
+    List<Advertisement> getAdvertisement(Integer storeId, Integer type);
 }

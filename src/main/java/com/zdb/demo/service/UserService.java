@@ -43,4 +43,11 @@ public interface UserService {
      * @return
      */
     User findUser(Integer userId);
+
+    /**
+     * 修改密码
+     * @param user
+     * @return
+     */
+    Boolean forget(User user);
 }

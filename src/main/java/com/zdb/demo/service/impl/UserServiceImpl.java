@@ -90,4 +90,18 @@ public class UserServiceImpl implements UserService {
         }
         return user;
     }
+
+    @Override
+    public Boolean forget(User user) {
+        UserExample example  = new UserExample();
+        UserExample.Criteria criteria = example.createCriteria();
+        criteria.andUserNameEqualTo(user.getUserName());
+        criteria.andUserPhoneEqualTo(user.getUserPhone());
+        User newUser = userMapper.selectByExample(example).get(0);
+        newUser.setUserPassWord(user.getUserPassWord());
+
+        return userMapper.updateByPrimaryKeySelective(newUser)==1;
+    }
+
+
 }

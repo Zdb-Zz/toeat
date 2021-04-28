@@ -1,10 +1,12 @@
 package com.zdb.demo.controller;
 
 import com.zdb.demo.config.WebSocket;
+import com.zdb.demo.entity.Advertisement;
 import com.zdb.demo.entity.Store;
 import com.zdb.demo.entity.User;
 import com.zdb.demo.service.StoreService;
 import com.zdb.demo.util.ResultUtil;
+import com.zdb.demo.vo.AdvertisementVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.context.annotation.Scope;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.List;
 
@@ -80,4 +83,17 @@ public class StoreController {
         webSocket.sendAllMessage(store.getStoreNotify().toString());
         return "websocket发送！";
     }
+    
+    @PostMapping("/editAdvertisement")
+    public Map<String,Object> editAdvertisement(@RequestBody AdvertisementVo advertisementVo){
+        storeService.editAdvertisement(advertisementVo.getImgList(),advertisementVo.getStoreId(), advertisementVo.getType());
+        return ResultUtil.resultSuccess("编辑广告成功", null, null);
+    }
+
+    @GetMapping("/getAdvertisement")
+    public Map<String,Object> getAdvertisement(Integer storeId,Integer type){
+        List<Advertisement> advertisement = storeService.getAdvertisement(storeId, type);
+        return ResultUtil.resultSuccess("获取广告成功", null, advertisement);
+    }
+
 }

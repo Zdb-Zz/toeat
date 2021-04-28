@@ -14,6 +14,7 @@
         <result column="user_mail" jdbcType="VARCHAR" property="userMail" />
         <result column="user_type" jdbcType="INTEGER" property="userType" />
         <result column="user_store" jdbcType="INTEGER" property="userStore" />
+        <result column="user_pay_password" jdbcType="VARCHAR" property="userPayPassword" />
     </resultMap>
     <sql id="Example_Where_Clause">
         <!--
@@ -83,8 +84,8 @@
         <!--
         @mbggenerated
         -->
-        user_id, user_name, user_pass_word, user_nick, user_sex, user_phone, user_mail, user_type, 
-        user_store
+        user_id, user_name, user_pass_word, user_nick, user_sex, user_phone, user_mail, user_type,
+        user_store, user_pay_password
     </sql>
     <select id="selectByExample" parameterType="com.zdb.demo.entity.UserExample" resultMap="BaseResultMap">
         <!--
@@ -102,7 +103,7 @@
         <if test="orderByClause != null">
             order by ${orderByClause}
         </if>
-        <if test="limitStart != null and limitStart&gt;=0">
+        <if test="limitStart != null and limitStart>=0">
             limit #{limitStart} , #{limitEnd}
         </if>
     </select>
@@ -110,7 +111,7 @@
         <!--
         @mbggenerated
         -->
-        select 
+        select
         <include refid="Base_Column_List" />
         from user
         where user_id = #{userId,jdbcType=INTEGER}
@@ -135,14 +136,14 @@
         <!--
         @mbggenerated
         -->
-        insert into user (user_id, user_name, user_pass_word, 
-            user_nick, user_sex, user_phone, 
-            user_mail, user_type, user_store
-            )
-        values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userPassWord,jdbcType=VARCHAR}, 
-            #{userNick,jdbcType=VARCHAR}, #{userSex,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR},
-            #{userMail,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}, #{userStore,jdbcType=INTEGER}
-            )
+        insert into user (user_id, user_name, user_pass_word,
+        user_nick, user_sex, user_phone,
+        user_mail, user_type, user_store,
+        user_pay_password)
+        values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userPassWord,jdbcType=VARCHAR},
+        #{userNick,jdbcType=VARCHAR}, #{userSex,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR},
+        #{userMail,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}, #{userStore,jdbcType=INTEGER},
+        #{userPayPassword,jdbcType=VARCHAR})
     </insert>
     <insert id="insertSelective" parameterType="com.zdb.demo.entity.User">
         <!--
@@ -177,6 +178,9 @@
             <if test="userStore != null">
                 user_store,
             </if>
+            <if test="userPayPassword != null">
+                user_pay_password,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId != null">
@@ -192,7 +196,7 @@
                 #{userNick,jdbcType=VARCHAR},
             </if>
             <if test="userSex != null">
-                #{userSex,jdbcType=INTEGER},
+                #{userSex,jdbcType=VARCHAR},
             </if>
             <if test="userPhone != null">
                 #{userPhone,jdbcType=VARCHAR},
@@ -205,6 +209,9 @@
             </if>
             <if test="userStore != null">
                 #{userStore,jdbcType=INTEGER},
+            </if>
+            <if test="userPayPassword != null">
+                #{userPayPassword,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -250,6 +257,9 @@
             <if test="record.userStore != null">
                 user_store = #{record.userStore,jdbcType=INTEGER},
             </if>
+            <if test="record.userPayPassword != null">
+                user_pay_password = #{record.userPayPassword,jdbcType=VARCHAR},
+            </if>
         </set>
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause" />
@@ -261,14 +271,15 @@
         -->
         update user
         set user_id = #{record.userId,jdbcType=INTEGER},
-            user_name = #{record.userName,jdbcType=VARCHAR},
-            user_pass_word = #{record.userPassWord,jdbcType=VARCHAR},
-            user_nick = #{record.userNick,jdbcType=VARCHAR},
-            user_sex = #{record.userSex,jdbcType=VARCHAR},
-            user_phone = #{record.userPhone,jdbcType=VARCHAR},
-            user_mail = #{record.userMail,jdbcType=VARCHAR},
-            user_type = #{record.userType,jdbcType=INTEGER},
-            user_store = #{record.userStore,jdbcType=INTEGER}
+        user_name = #{record.userName,jdbcType=VARCHAR},
+        user_pass_word = #{record.userPassWord,jdbcType=VARCHAR},
+        user_nick = #{record.userNick,jdbcType=VARCHAR},
+        user_sex = #{record.userSex,jdbcType=VARCHAR},
+        user_phone = #{record.userPhone,jdbcType=VARCHAR},
+        user_mail = #{record.userMail,jdbcType=VARCHAR},
+        user_type = #{record.userType,jdbcType=INTEGER},
+        user_store = #{record.userStore,jdbcType=INTEGER},
+        user_pay_password = #{record.userPayPassword,jdbcType=VARCHAR}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause" />
         </if>
@@ -303,6 +314,9 @@
             <if test="userStore != null">
                 user_store = #{userStore,jdbcType=INTEGER},
             </if>
+            <if test="userPayPassword != null">
+                user_pay_password = #{userPayPassword,jdbcType=VARCHAR},
+            </if>
         </set>
         where user_id = #{userId,jdbcType=INTEGER}
     </update>
@@ -312,13 +326,14 @@
         -->
         update user
         set user_name = #{userName,jdbcType=VARCHAR},
-            user_pass_word = #{userPassWord,jdbcType=VARCHAR},
-            user_nick = #{userNick,jdbcType=VARCHAR},
-            user_sex = #{userSex,jdbcType=VARCHAR},
-            user_phone = #{userPhone,jdbcType=VARCHAR},
-            user_mail = #{userMail,jdbcType=VARCHAR},
-            user_type = #{userType,jdbcType=INTEGER},
-            user_store = #{userStore,jdbcType=INTEGER}
+        user_pass_word = #{userPassWord,jdbcType=VARCHAR},
+        user_nick = #{userNick,jdbcType=VARCHAR},
+        user_sex = #{userSex,jdbcType=VARCHAR},
+        user_phone = #{userPhone,jdbcType=VARCHAR},
+        user_mail = #{userMail,jdbcType=VARCHAR},
+        user_type = #{userType,jdbcType=INTEGER},
+        user_store = #{userStore,jdbcType=INTEGER},
+        user_pay_password = #{userPayPassword,jdbcType=VARCHAR}
         where user_id = #{userId,jdbcType=INTEGER}
     </update>
 </mapper>
