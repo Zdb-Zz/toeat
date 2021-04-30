@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.List;
@@ -68,8 +69,10 @@ public class StoreController {
      * @return
      */
     @GetMapping("/getStoreList")
-    public Map<String, Object> getStoreList(@RequestParam(value = "storeName", required = false) String storeName) {
-        List<Store> storeList = storeService.getStoreList(storeName);
+    public Map<String, Object> getStoreList(@RequestParam(value = "storeName", required = false) String storeName,
+                                            @RequestParam(value = "lng", required = false) BigDecimal lng,
+                                            @RequestParam(value = "lat", required = false) BigDecimal lat) {
+        List<Store> storeList = storeService.getStoreList(storeName,lng,lat);
         if (!storeList.isEmpty()) {
             return ResultUtil.resultSuccess("获取商家列表成功", null, storeList);
         } else return ResultUtil.resultFail("获取商家列表失败", null, null);

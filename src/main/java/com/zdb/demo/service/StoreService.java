@@ -13,7 +13,7 @@ public interface StoreService {
 
     Boolean editStore(Store store);
 
-    List<Store> getStoreList(String storeName);
+    List<Store> getStoreList(String storeName,BigDecimal lng,BigDecimal lat);
 
     Store findStoreById(Integer storeId);
 

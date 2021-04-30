@@ -47,13 +47,17 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public List<Store> getStoreList(String storeName) {
+    public List<Store> getStoreList(String storeName, BigDecimal lng, BigDecimal lat) {
         StoreExample example = new StoreExample();
         StoreExample.Criteria criteria = example.createCriteria();
         criteria.andStoreStateEqualTo(1);
         criteria.andStoreDelEqualTo(0);
         if (storeName != null && storeName != "") {
             criteria.andStoreNameLike("%" + storeName + "%");
+        }
+        if (lng != null && lat != null) {
+            String orderStr = "( POWER( store_lng - " + lng + ", 2 ) + POWER( store_lat - " + lat + ", 2 ) )";
+            example.setOrderByClause(orderStr);
         }
         List<Store> stores = storeMapper.selectByExample(example);
         return stores;
@@ -110,7 +114,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public List<String> editAdvertisement(List<String> imgList, Integer storeId,Integer type) {
+    public List<String> editAdvertisement(List<String> imgList, Integer storeId, Integer type) {
         AdvertisementExample example = new AdvertisementExample();
         example.createCriteria().andStoreIdEqualTo(storeId).andAdvertisementTypeEqualTo(type);
         advertisementMapper.deleteByExample(example);

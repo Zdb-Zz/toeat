@@ -16,6 +16,10 @@
         <result column="store_img" jdbcType="VARCHAR" property="storeImg" />
         <result column="store_address" jdbcType="VARCHAR" property="storeAddress" />
         <result column="store_notify" jdbcType="INTEGER" property="storeNotify" />
+        <result column="store_advertisement" jdbcType="VARCHAR" property="storeAdvertisement" />
+        <result column="store_lng" jdbcType="DECIMAL" property="storeLng" />
+        <result column="store_lat" jdbcType="DECIMAL" property="storeLat" />
+        <result column="store_position" jdbcType="VARCHAR" property="storePosition" />
     </resultMap>
     <select id="getRateAvg" resultType="java.math.BigDecimal">
         UPDATE store
@@ -129,7 +133,8 @@
         @mbggenerated
         -->
         store_id, store_name, store_collect, store_star, store_remark, store_sales, store_state,
-        store_del, store_img, store_address, store_notify
+        store_del, store_img, store_address, store_notify, store_advertisement, store_lng,
+        store_lat, store_position
     </sql>
     <select id="selectByExample" parameterType="com.zdb.demo.entity.StoreExample" resultMap="BaseResultMap">
         <!--
@@ -183,11 +188,15 @@
         insert into store (store_id, store_name, store_collect,
         store_star, store_remark, store_sales,
         store_state, store_del, store_img,
-        store_address, store_notify)
+        store_address, store_notify, store_advertisement,
+        store_lng, store_lat, store_position
+        )
         values (#{storeId,jdbcType=INTEGER}, #{storeName,jdbcType=VARCHAR}, #{storeCollect,jdbcType=VARCHAR},
         #{storeStar,jdbcType=INTEGER}, #{storeRemark,jdbcType=VARCHAR}, #{storeSales,jdbcType=BIGINT},
         #{storeState,jdbcType=INTEGER}, #{storeDel,jdbcType=INTEGER}, #{storeImg,jdbcType=VARCHAR},
-        #{storeAddress,jdbcType=VARCHAR}, #{storeNotify,jdbcType=INTEGER})
+        #{storeAddress,jdbcType=VARCHAR}, #{storeNotify,jdbcType=INTEGER}, #{storeAdvertisement,jdbcType=VARCHAR},
+        #{storeLng,jdbcType=DECIMAL}, #{storeLat,jdbcType=DECIMAL}, #{storePosition,jdbcType=VARCHAR}
+        )
     </insert>
     <insert id="insertSelective" parameterType="com.zdb.demo.entity.Store" useGeneratedKeys="true" keyProperty="storeId">
         <!--
@@ -228,6 +237,18 @@
             <if test="storeNotify != null">
                 store_notify,
             </if>
+            <if test="storeAdvertisement != null">
+                store_advertisement,
+            </if>
+            <if test="storeLng != null">
+                store_lng,
+            </if>
+            <if test="storeLat != null">
+                store_lat,
+            </if>
+            <if test="storePosition != null">
+                store_position,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="storeId != null">
@@ -262,6 +283,18 @@
             </if>
             <if test="storeNotify != null">
                 #{storeNotify,jdbcType=INTEGER},
+            </if>
+            <if test="storeAdvertisement != null">
+                #{storeAdvertisement,jdbcType=VARCHAR},
+            </if>
+            <if test="storeLng != null">
+                #{storeLng,jdbcType=DECIMAL},
+            </if>
+            <if test="storeLat != null">
+                #{storeLat,jdbcType=DECIMAL},
+            </if>
+            <if test="storePosition != null">
+                #{storePosition,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -313,6 +346,18 @@
             <if test="record.storeNotify != null">
                 store_notify = #{record.storeNotify,jdbcType=INTEGER},
             </if>
+            <if test="record.storeAdvertisement != null">
+                store_advertisement = #{record.storeAdvertisement,jdbcType=VARCHAR},
+            </if>
+            <if test="record.storeLng != null">
+                store_lng = #{record.storeLng,jdbcType=DECIMAL},
+            </if>
+            <if test="record.storeLat != null">
+                store_lat = #{record.storeLat,jdbcType=DECIMAL},
+            </if>
+            <if test="record.storePosition != null">
+                store_position = #{record.storePosition,jdbcType=VARCHAR},
+            </if>
         </set>
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause" />
@@ -333,7 +378,11 @@
         store_del = #{record.storeDel,jdbcType=INTEGER},
         store_img = #{record.storeImg,jdbcType=VARCHAR},
         store_address = #{record.storeAddress,jdbcType=VARCHAR},
-        store_notify = #{record.storeNotify,jdbcType=INTEGER}
+        store_notify = #{record.storeNotify,jdbcType=INTEGER},
+        store_advertisement = #{record.storeAdvertisement,jdbcType=VARCHAR},
+        store_lng = #{record.storeLng,jdbcType=DECIMAL},
+        store_lat = #{record.storeLat,jdbcType=DECIMAL},
+        store_position = #{record.storePosition,jdbcType=VARCHAR}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause" />
         </if>
@@ -374,6 +423,18 @@
             <if test="storeNotify != null">
                 store_notify = #{storeNotify,jdbcType=INTEGER},
             </if>
+            <if test="storeAdvertisement != null">
+                store_advertisement = #{storeAdvertisement,jdbcType=VARCHAR},
+            </if>
+            <if test="storeLng != null">
+                store_lng = #{storeLng,jdbcType=DECIMAL},
+            </if>
+            <if test="storeLat != null">
+                store_lat = #{storeLat,jdbcType=DECIMAL},
+            </if>
+            <if test="storePosition != null">
+                store_position = #{storePosition,jdbcType=VARCHAR},
+            </if>
         </set>
         where store_id = #{storeId,jdbcType=INTEGER}
     </update>
@@ -391,7 +452,11 @@
         store_del = #{storeDel,jdbcType=INTEGER},
         store_img = #{storeImg,jdbcType=VARCHAR},
         store_address = #{storeAddress,jdbcType=VARCHAR},
-        store_notify = #{storeNotify,jdbcType=INTEGER}
+        store_notify = #{storeNotify,jdbcType=INTEGER},
+        store_advertisement = #{storeAdvertisement,jdbcType=VARCHAR},
+        store_lng = #{storeLng,jdbcType=DECIMAL},
+        store_lat = #{storeLat,jdbcType=DECIMAL},
+        store_position = #{storePosition,jdbcType=VARCHAR}
         where store_id = #{storeId,jdbcType=INTEGER}
     </update>
 </mapper>
