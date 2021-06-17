@@ -6,6 +6,8 @@ import com.zdb.demo.entity.UserExample;
 import com.zdb.demo.mapper.StoreMapper;
 import com.zdb.demo.mapper.UserMapper;
 import com.zdb.demo.service.UserService;
+import com.zdb.demo.util.PasswordUtil;
+import com.zdb.demo.util.TokenUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -32,7 +34,13 @@ public class UserServiceImpl implements UserService {
         if (!userList.isEmpty() && userList.size() > 0) {
             //存在用户，返回失败
             return false;
-        } else return 1 == userMapper.insertSelective(user);//不存在，返回成功
+        } else {
+            String salt = PasswordUtil.getSalt();
+            user.setUserSalt(salt);
+            String password = PasswordUtil.generate(user.getUserPassWord(), salt);
+            user.setUserPassWord(password);
+            return 1 == userMapper.insertSelective(user);//不存在，返回成功
+        }
     }
 
     @Override
@@ -44,10 +52,15 @@ public class UserServiceImpl implements UserService {
         //查询用户列表
         List<User> userList = userMapper.selectByExample(example);
         if (!userList.isEmpty()) {
-            if (user.getUserPassWord().equals(userList.get(0).getUserPassWord())) {
+            User user1 = userList.get(0);
+            if (PasswordUtil.verify(user.getUserPassWord(),user1.getUserPassWord())) {
                 //"登录成功！"
                 //将用户信息放入session中，之后获取用户都从session中获取
                 session.setAttribute("user", userList.get(0));
+                String token = TokenUtil.buildJWT(user.getUserName());
+                user1.setUserToken(token);
+                userMapper.updateByPrimaryKeySelective(user1);
+                session.setAttribute("token", token);
                 map.put("type",1);
                 map.put("user",userList.get(0));
                 return map;
@@ -65,6 +78,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean editUser(User user) {
+        String salt = PasswordUtil.getSalt();
+        user.setUserSalt(salt);
+        String password = PasswordUtil.generate(user.getUserPassWord(), salt);
+        user.setUserPassWord(password);
         return 1 == userMapper.updateByPrimaryKeySelective(user);
     }
 

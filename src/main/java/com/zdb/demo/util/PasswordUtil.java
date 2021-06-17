@@ -67,9 +67,9 @@ public class PasswordUtil {
 	public static void main(String[] args) {
 		String salt = getSalt();
 		System.out.println(salt);
-		String password = generate("admin", salt);
+		String password = generate("123456", salt);
 		System.out.println(password);
 		System.out.println(password.length());
-		System.out.println(verify("admin", password));
+		System.out.println(verify("123456", password));
 	}
 }

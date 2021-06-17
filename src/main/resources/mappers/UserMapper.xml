@@ -15,6 +15,8 @@
         <result column="user_type" jdbcType="INTEGER" property="userType" />
         <result column="user_store" jdbcType="INTEGER" property="userStore" />
         <result column="user_pay_password" jdbcType="VARCHAR" property="userPayPassword" />
+        <result column="user_token" jdbcType="VARCHAR" property="userToken" />
+        <result column="user_salt" jdbcType="VARCHAR" property="userSalt" />
     </resultMap>
     <sql id="Example_Where_Clause">
         <!--
@@ -85,7 +87,7 @@
         @mbggenerated
         -->
         user_id, user_name, user_pass_word, user_nick, user_sex, user_phone, user_mail, user_type,
-        user_store, user_pay_password
+        user_store, user_pay_password, user_token, user_salt
     </sql>
     <select id="selectByExample" parameterType="com.zdb.demo.entity.UserExample" resultMap="BaseResultMap">
         <!--
@@ -139,11 +141,13 @@
         insert into user (user_id, user_name, user_pass_word,
         user_nick, user_sex, user_phone,
         user_mail, user_type, user_store,
-        user_pay_password)
+        user_pay_password, user_token, user_salt
+        )
         values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userPassWord,jdbcType=VARCHAR},
         #{userNick,jdbcType=VARCHAR}, #{userSex,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR},
         #{userMail,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}, #{userStore,jdbcType=INTEGER},
-        #{userPayPassword,jdbcType=VARCHAR})
+        #{userPayPassword,jdbcType=VARCHAR}, #{userToken,jdbcType=VARCHAR}, #{userSalt,jdbcType=VARCHAR}
+        )
     </insert>
     <insert id="insertSelective" parameterType="com.zdb.demo.entity.User">
         <!--
@@ -181,6 +185,12 @@
             <if test="userPayPassword != null">
                 user_pay_password,
             </if>
+            <if test="userToken != null">
+                user_token,
+            </if>
+            <if test="userSalt != null">
+                user_salt,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId != null">
@@ -212,6 +222,12 @@
             </if>
             <if test="userPayPassword != null">
                 #{userPayPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="userToken != null">
+                #{userToken,jdbcType=VARCHAR},
+            </if>
+            <if test="userSalt != null">
+                #{userSalt,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -260,6 +276,12 @@
             <if test="record.userPayPassword != null">
                 user_pay_password = #{record.userPayPassword,jdbcType=VARCHAR},
             </if>
+            <if test="record.userToken != null">
+                user_token = #{record.userToken,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userSalt != null">
+                user_salt = #{record.userSalt,jdbcType=VARCHAR},
+            </if>
         </set>
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause" />
@@ -279,7 +301,9 @@
         user_mail = #{record.userMail,jdbcType=VARCHAR},
         user_type = #{record.userType,jdbcType=INTEGER},
         user_store = #{record.userStore,jdbcType=INTEGER},
-        user_pay_password = #{record.userPayPassword,jdbcType=VARCHAR}
+        user_pay_password = #{record.userPayPassword,jdbcType=VARCHAR},
+        user_token = #{record.userToken,jdbcType=VARCHAR},
+        user_salt = #{record.userSalt,jdbcType=VARCHAR}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause" />
         </if>
@@ -317,6 +341,12 @@
             <if test="userPayPassword != null">
                 user_pay_password = #{userPayPassword,jdbcType=VARCHAR},
             </if>
+            <if test="userToken != null">
+                user_token = #{userToken,jdbcType=VARCHAR},
+            </if>
+            <if test="userSalt != null">
+                user_salt = #{userSalt,jdbcType=VARCHAR},
+            </if>
         </set>
         where user_id = #{userId,jdbcType=INTEGER}
     </update>
@@ -333,7 +363,9 @@
         user_mail = #{userMail,jdbcType=VARCHAR},
         user_type = #{userType,jdbcType=INTEGER},
         user_store = #{userStore,jdbcType=INTEGER},
-        user_pay_password = #{userPayPassword,jdbcType=VARCHAR}
+        user_pay_password = #{userPayPassword,jdbcType=VARCHAR},
+        user_token = #{userToken,jdbcType=VARCHAR},
+        user_salt = #{userSalt,jdbcType=VARCHAR}
         where user_id = #{userId,jdbcType=INTEGER}
     </update>
 </mapper>
